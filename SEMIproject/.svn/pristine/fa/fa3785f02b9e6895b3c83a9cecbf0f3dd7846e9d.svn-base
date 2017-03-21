@@ -1,0 +1,97 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<!DOCTYPE html >
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=News+Cycle:400,700" />
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+.panel-heading {
+	text-align: center;
+}
+
+.btn btn-default {
+	text-align: right;
+}
+
+.glyphicon glyphicon-ok {
+	color: blue;
+}
+</style>
+</head>
+<body>
+	<%@include file="/nav.jsp"%>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3>
+							<span>Create an Account</span>
+						</h3>
+					</div>
+					<div class="panel-body">
+						<form method="post" id="loginform" action="/member/pro/join.jsp">
+							<div class="form-group">
+								<label for="">*Email</label> <input type="text" class="form-control" id="id" name="id" onkeyup="duplicateCheck();" placeholder="Email Please!" />
+								<div id="result-box"></div>
+							</div>
+
+							<div class="form-group ">
+								<button type="submit" class="btn btn-warning btn-lg btn-block" id="sumbitBtn" name="sumbitBtn"><span>JOIN</span></button>
+							</div>
+							
+							<div class="form-group">
+								<p>Already a member?</p><a href="/member/view/loginForm.jsp" class="btn btn-default"><span>LOGIN NOW</span></a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	function duplicateCheck() {
+		var id = document.getElementById("id").value;
+		console.log("아이디 : " + id);
+
+		// XHR생성
+		var xhr = new XMLHttpRequest();
+
+		// XHR에 콜백함수등록
+		xhr.onreadystatechange = function() {
+			console.log(xhr.readyState);
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				
+				var idcheckResult = xhr.responseText;
+				console.log("중복체크 결과 : " + idcheckResult);
+
+				var box = document.getElementById("result-box");
+
+				if (idcheckResult == "Y") {
+					box.innerHTML = "<p class='text-danger'>이미 사용중인 아이디입니다.</p>";
+				} else if (idcheckResult == "N") {
+					box.innerHTML = "<p class='text-success'>사용가능한 아이디입니다.</p>";
+				}
+			}
+		}
+		// XHR에게 요청 URL 지정하기
+		xhr.open("GET", "/member/pro/idcheck.jsp?id=" + id);
+
+		// 서버에게 요청하기
+		xhr.send(null);
+
+	}
+</script>
+</html>

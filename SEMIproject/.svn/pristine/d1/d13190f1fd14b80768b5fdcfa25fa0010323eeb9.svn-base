@@ -1,0 +1,61 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import util.ConnectionUtil;
+
+public class AddBuyDAO {
+	static final String ADD_BUY_MALL = "insert into MALL_BUY values (?,'NO',SYSDATE,?,?)";
+	
+	
+	static final String ADD_BUY_ITEM = "insert into MALL_BUY_ITEM VALUES (buy_seq.nextval,?,?,?)";
+	
+	static final String ORDER_NO = "select addBuy_seq.nextval from dual";
+	
+	public void addBuyMall(String userId,double discount,int orderNo)throws SQLException {
+		Connection con = ConnectionUtil.getConnection();
+		PreparedStatement ps = con.prepareStatement(ADD_BUY_MALL);
+		ps.setString(1, userId);
+		ps.setDouble(2, discount);
+		ps.setInt(3, orderNo);
+		ps.executeUpdate();
+		
+		ps.close();
+		con.close();
+	}
+	
+	public void addBuyItem(int itemNo,int itemCount, int orderNo) throws SQLException{
+		
+		Connection con = ConnectionUtil.getConnection();
+		PreparedStatement ps = con.prepareStatement(ADD_BUY_ITEM);
+		ps.setInt(1, itemNo);
+		ps.setInt(2, itemCount);
+		ps.setInt(3, orderNo);
+		
+		ps.executeUpdate();
+		
+		ps.close();
+		con.close();
+	}
+	
+	public int orderNo () throws SQLException{
+		
+		Connection con =ConnectionUtil.getConnection();
+		PreparedStatement ps = con.prepareStatement(ORDER_NO);
+		int orderNo = 0;
+		ResultSet rs = ps.executeQuery();
+		
+		if (rs.next()) {
+			orderNo = rs.getInt("NEXTVAL");
+		}
+		
+		rs.close();
+		ps.close();
+		con.close();
+		return orderNo;
+		
+	}
+}

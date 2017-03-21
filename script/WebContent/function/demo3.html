@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+	
+	// 전역변수 : window객체의 프로퍼티(변수)가 된다.
+	// 자바스크립트 전 영역에서 자유롭게 사용할 수 있다.
+	var imageDirectory = '/photo';
+	
+	function saveImage(filename) {
+		
+		alert(imageDirectory + "/" + filename + "에 저장완료");
+		
+	}
+	
+	function deleteImage(filename) {
+		
+		alert(imageDirectory + "/" + filename + "에 삭제완료");
+		
+	}
+	
+	saveImage('cat.png');
+	deleteImage('cat.png');
+	
+</script>
+</html>

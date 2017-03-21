@@ -1,0 +1,74 @@
+package vo;
+
+public class BuyVO {
+
+	private int buyNo;
+	private String buyItemName;
+	private String buyUserName;
+	private int buyCoutn;
+	private String buyCompleted;
+	private String buyOrderNo;
+
+	public BuyVO() {
+	}
+
+	public int getBuyNo() {
+		return buyNo;
+	}
+
+	public void setBuyNo(int buyNo) {
+		this.buyNo = buyNo;
+	}
+
+	public String getBuyItemName() {
+		return buyItemName;
+	}
+
+	public void setBuyItemName(String buyItemName) {
+		this.buyItemName = buyItemName;
+	}
+
+	public String getBuyUserName() {
+		return buyUserName;
+	}
+
+	public void setBuyUserName(String buyUserName) {
+		this.buyUserName = buyUserName;
+	}
+
+	public int getBuyCoutn() {
+		return buyCoutn;
+	}
+
+	public void setBuyCoutn(int buyCoutn) {
+		this.buyCoutn = buyCoutn;
+	}
+
+	public String getBuyCompleted() {
+		return buyCompleted;
+	}
+
+	public void setBuyCompleted(String buyCompleted) {
+		this.buyCompleted = buyCompleted;
+	}
+
+	public String getBuyOrderNo() {
+		return buyOrderNo;
+	}
+
+	public void setBuyOrderNo(String buyOrderNo) {
+		this.buyOrderNo = buyOrderNo;
+	}
+
+	public BuyVO(int buyNo, String buyItemName, String buyUserName, int buyCoutn, String buyCompleted,
+			String buyOrderNo) {
+		super();
+		this.buyNo = buyNo;
+		this.buyItemName = buyItemName;
+		this.buyUserName = buyUserName;
+		this.buyCoutn = buyCoutn;
+		this.buyCompleted = buyCompleted;
+		this.buyOrderNo = buyOrderNo;
+	}
+
+}

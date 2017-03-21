@@ -1,0 +1,10 @@
+package app;
+
+public class SampleTest2 {
+	
+	// 테스트 메소드
+	public void testPlus() {
+		
+	}
+	
+}

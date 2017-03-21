@@ -1,0 +1,170 @@
+package upload;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.Enumeration;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
+import dao.BoardDAO;
+import util.MD5;
+import vo.BoardVO;
+import vo.UserVO;
+
+@MultipartConfig
+@WebServlet("/upload.do")
+public class BoardUploadServlet extends HttpServlet {
+	
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		HttpSession session = request.getSession(false);
+		UserVO user = (UserVO) session.getAttribute("LOGINED_USER");
+		
+		BoardDAO dao = new BoardDAO();
+		BoardVO vo = new BoardVO();
+		int tno = 1;
+		String pNo = request.getParameter("pno");
+		vo.setBoardType(Integer.parseInt(request.getParameter("boardType")));
+		if (request.getParameter("boardType").equals("1")) {
+			vo.setBoardCategory("교환/반품 문의");
+			tno = 1;
+		} else if (request.getParameter("boardType").equals("2")) {
+			vo.setBoardCategory("배송전 요청문의");
+			tno = 2;
+		} else if (request.getParameter("boardType").equals("3")) {
+			vo.setBoardCategory("상품 문의");
+			tno = 3;
+		} else if (request.getParameter("boardType").equals("4")) {
+			tno = 4;
+			vo.setBoardCategory("기타 문의");
+		} else if (request.getParameter("boardType").equals("6")) {
+			tno = 6;
+			vo.setBoardCategory("구매 후기");
+		}
+		
+		vo.setBoardTitle(request.getParameter("boardTitle"));
+		vo.setBoardContents(request.getParameter("boardContents"));
+		vo.setUccURL(request.getParameter("uccUrl"));
+		vo.setUccWidth(request.getParameter("uccWidth"));
+		vo.setUccHeight(request.getParameter("uccHeight"));
+		
+		if (request.getParameter("boardPwd")==null) {
+			vo.setBoardPwd("0");
+		} else {
+			String pwd = request.getParameter("boardPwd");
+			String secuPwd = "0";
+			try {
+				secuPwd = MD5.hash(pwd);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			vo.setBoardPwd(secuPwd);
+		}
+		vo.setSecret(request.getParameter("secret"));
+		vo.setUserName(user.getName());
+		vo.setBoardUserNo(user.getNo());
+		if(request.getParameter("rating-input-1") != null) {
+			vo.setBoardSatis(Double.parseDouble(request.getParameter("rating-input-1")));
+		}
+		
+		if(request.getParameter("boardFileName1") != null) {
+			Part part = request.getPart("boardFileName1");
+			String filename = getFilename(part);
+			
+			ServletContext application = this.getServletContext();
+			String uploadDir = application.getRealPath("upload");
+			
+			if(filename!=null && !filename.isEmpty()) {
+				part.write(uploadDir + "/" + filename);
+			}
+			
+			vo.setBoardFileName1(filename);
+		}
+		if(request.getParameter("boardFileName2") != null) {
+			Part part = request.getPart("boardFileName2");
+			String filename = getFilename(part);
+			
+			ServletContext application = this.getServletContext();
+			String uploadDir = application.getRealPath("upload");
+			
+			if(filename!=null && !filename.isEmpty()) {
+				part.write(uploadDir + "/" + filename);
+			}
+			
+			vo.setBoardFileName1(filename);			
+		}
+		if(request.getParameter("boardFileName3") != null) {
+			Part part = request.getPart("boardFileName3");
+			String filename = getFilename(part);
+			
+			ServletContext application = this.getServletContext();
+			String uploadDir = application.getRealPath("upload");
+			
+			if(filename!=null && !filename.isEmpty()) {
+				part.write(uploadDir + "/" + filename);
+			}
+			
+			vo.setBoardFileName1(filename);	
+		}
+		if(request.getParameter("boardFileName4") != null) {
+			Part part = request.getPart("boardFileName4");
+			String filename = getFilename(part);
+			
+			ServletContext application = this.getServletContext();
+			String uploadDir = application.getRealPath("upload");
+			
+			if(filename!=null && !filename.isEmpty()) {
+				part.write(uploadDir + "/" + filename);
+			}
+			
+			vo.setBoardFileName1(filename);	
+		}
+		if(request.getParameter("boardFileName5") != null) {
+			Part part = request.getPart("boardFileName5");
+			String filename = getFilename(part);
+			
+			ServletContext application = this.getServletContext();
+			String uploadDir = application.getRealPath("upload");
+			
+			if(filename!=null && !filename.isEmpty()) {
+				part.write(uploadDir + "/" + filename);
+			}
+			
+			vo.setBoardFileName1(filename);	
+		}
+		
+		
+		try {dao.addBoard(vo);} catch (SQLException e) {e.printStackTrace();}
+		out.close();
+		
+		response.sendRedirect("/board/product/productBoard.jsp?tno="+ tno +"&pno=" + pNo);
+	}
+    
+    private String getFilename(Part part) {
+		String headerValue = part.getHeader("Content-Disposition");
+		String[] elements = headerValue.split(";");
+		for (String el : elements) {
+			if (el.trim().startsWith("filename")) {
+				return el.substring(el.indexOf("=") +1).replace("\"", "");
+			}
+		}
+		
+		return null;
+	}
+}

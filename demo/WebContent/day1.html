@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>1일차</h2>
+	
+	<ul>
+		
+		<li><a href="sample">SampleServlet 실행요청하기</a></li>
+		<li><a href="sample.jsp">SampleServlet.jsp 실행요청하기</a></li>
+		
+		<!-- 질의 문자열, QueryString 요청문자열 예제 -->
+		<li><a href="sample2?id=hong">홍길동의 상세정보 요청</a></li>
+		<li><a href="sample2?id=lee">이순신의 상세정보 요청</a></li>
+		<li><a href="sample2?id=park&id=hong">홍길동과 이순신의 상세정보 요청</a></li>
+		
+		<li>
+			<form action="sample3">
+				검색어 : <input type="text" name="keyword"/><button>검색</button>
+			</form>
+		</li>
+		
+		<li>
+		<!-- form의 method를 post로 하면 쿼리스트링에 입력값이 표시가 안된다. -->
+		<form method="post" action="sample4">
+			아이디:<br/> 
+			<input type="text" name="userId"/><br/>
+			<!-- 비밀번호는 값을 감춰서 보내야한다. -->
+			비밀번호:<br/>
+			<input type="text" name="userPwd"/><br/>
+			<button>로그인</button>
+			
+		</form>
+		</li>
+		<li>
+		
+		<form method="post" action="sample5">
+			사는곳: <br/>
+			<select name="house">
+				<option value="seoul"> 서울</option>
+				<option value="kyoungki" selected="selected"> 경기도</option>
+				<option value="incheon"> 인천</option>
+				<option value="etc"> 기타</option>
+			</select><br/>
+			성별:<br/>
+															<!-- checked 를 하면 화면이 로딩되었을때 먼저 체크되있을수 있다  -->
+			<input type="radio" name="gener" value="female" checked="checked"/>여성
+			<input type="radio" name="gener" value="male"/>남성<br/>
+			자기소개:<br/>
+										<!-- value를 textarea에 입력을 해서 태그에 value를 따로 지정해주지않는다.-->
+										<!-- value를 입력하는 textarea나 input type=text는 따로 value를 안해도 상관없다.-->
+			<textarea rows="5" cols="60" name="memo"></textarea>
+			<button>등록</button>
+		</form>
+		</li>
+	</ul>
+	
+	<h2>새 책 등록하기</h2>
+	<form method="post" action="sample6">
+		제목:<br/>
+		<input type="text" name="title"/><br/>
+		저자:<br/>
+		<input type="text" name="author"><br/>
+		출판사:<br/>
+		<input type="text" name="publisher"><br/>
+		가격:<br/>
+		<input type="text" name="price"><br/>
+		출판일:<br/>
+		<input type="date" name="date"><br/>
+		<br/>
+		<button>등록</button>
+	</form>
+	
+	<h2>책 조회하기</h2>
+	<form method="post" action="sample7">
+	출판사명: <input type="text" name="pub_name"/> <button>조회</button>
+	</form>
+</body>
+</html>

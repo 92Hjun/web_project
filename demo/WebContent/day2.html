@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>둘째날 메인 페이지</title>
+</head>
+<body>
+	<h1> 2일차 </h1>
+	<p>
+		서블릿의 생명주기 메소드 확인하기<a href="life">생명주기</a>
+	</p>
+	
+	<p>
+		체크박스의 선택된 값을 서블릿으로 보내기
+		같은이름을 가지는 입력필드가 여러개있는 경우
+	</p>
+	<form method="post" action="req">
+		사용가능한 프로그램 언어: <br/>
+		<input type="checkbox" name="lan" value="c"/> C언어
+		<input type="checkbox" name="lan" value="java"/> java
+		<input type="checkbox" name="lan" value="javascript"/> javascript
+		<input type="checkbox" name="lan" value="python"/> python
+		<input type="checkbox" name="lan" value="swift"/> swift
+		<input type="checkbox" name="lan" value="lisp"/> lisp
+		<br/>
+		
+		자격증 : <br/>
+		<input type="text" name="licence"/><br/>
+		<input type="text" name="licence"/><br/>
+		<input type="text" name="licence"/><br/>
+				
+		<button>보내기</button>
+	</form>
+	<p>
+		헤더 정보 확인해보기 <a href="h">헤더정보 꺼내기</a>
+	</p>
+	<p>
+		리다이렉트 이동 체헝해보기<a href="res">res</a>
+	</p>
+</body>
+</html>

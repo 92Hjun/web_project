@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form method="post" action="order.jsp">
+		수량:<br/>
+		<input type="text" id="qty-field" onkeyup="chooseNumber();"/> <br/>
+		메모:<br/>
+		
+		<textarea rows="5" cols="60" id="memo" onkeyup="keyUp();"></textarea>
+	</form>
+	<button onclick="chooseNumber();">번호만 뽑아내기</button>
+	<p>입력된 문자갯수: <span id="cnt-Label">0</span>개</p>
+</body>
+	<script type="text/javascript">
+		// onkeydown="keyDown()" 
+		//  onkeypress="keyPress()"
+		function chooseNumber() {
+			var input = document.getElementById('qty-field');
+			var value = input.value;
+			var arr = value.split('');
+			var numberArr = arr.filter(function(item) {
+				var pattern = /[0-9]/;
+				return pattern.test(item);
+			});
+			
+			input.value = numberArr.join("");
+		}
+		// 인풋박스에서 많이사용 용도 : 댓글 글자수 증가,  
+		function keyDown() {
+			console.log('onKeyDown event !');
+		}
+		function keyPress() {
+			console.log('onKeyPress event @');		
+		}
+		
+		function keyUp() {
+			var area = document.getElementById('memo');
+			var span = document.getElementById('cnt-Label');
+			var text = area.value;
+			
+			span.textContent = text.length;
+			
+		}
+		function checkNumber(){
+			var input = document.getElementById('qty-field');
+			var qty = input.value;
+			var falseText = "";
+			var testText = "";
+			
+			var pattern = /^[0-9]*$/;
+			
+			if (!pattern.test(qty)) {
+				
+			}
+			
+		}
+	</script>
+</html>

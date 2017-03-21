@@ -1,0 +1,129 @@
+<%@page import="vo.ItemVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.AdminOnlyDAO"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false" trimDirectiveWhitespaces="true"%>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- 추가한 CSS -->
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<!-- 모든유저가 보는 네비바 -->
+<%@include file="/nav.jsp"%>
+
+<!-- Admin의 네비바 -->
+<%@include file="adminNav.jsp"%>
+
+
+<body>
+<!-- LogingCheck And Admin Check -->
+<%
+	if(session == null) {
+	response.sendRedirect("/main.jsp?err");
+	return;
+	}
+	request.setCharacterEncoding("utf-8");
+	
+	UserVO user = (UserVO) session.getAttribute("LOGINED_USER");
+	
+	if(!"admin".equals(user.getId())) {
+		response.sendRedirect("/main.jsp?YourNotManager!");
+		return;
+	}
+%>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="panel panel-default">
+					<div class="panel-heading"><h3>Admin Access information</h3></div>
+						<div class="panel-body">
+						
+						<%
+						// 세션의 고유 ID
+						String adminID = session.getId();
+						
+						// 세션의 로그인 시간
+						long adminLoginDate = session.getCreationTime();
+						long adminLastDate = session.getLastAccessedTime();
+						
+						// 세션 유지시간
+						long adminInterval = session.getMaxInactiveInterval();
+						
+						SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/dd/MM hh:mm:ss");
+						Date logonTimeF = new Date(adminLoginDate);
+						Date lastAccessTimeF = new Date(adminLastDate);
+
+						String logonTimeStr = sFormat.format(logonTimeF);
+						String lastAccessTimeStr = sFormat.format(lastAccessTimeF);
+						%>
+						
+							<label> Admin httpsession 고유 ID : </label> <h4><span class="label label-success"> <%=adminID %> </span></h4>  <br />
+							<label> Admin 로그인 시간 : </label> <h4><span class="label label-success"> <%=logonTimeStr %> </span></h4>  <br />
+							<label> Admin 최종 접근 시간 : </label> <h4><span class="label label-success"> <%=lastAccessTimeStr %> </span></h4>  <br />
+							<label> Admin 로그인 세션 유지시간 : </label> <h4><span class="label label-success"> <%=adminInterval/60 %> 분 </span></h4>  <br />
+					
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3>전체 상품 목록</h3>
+					</div>
+					<div class="panel-body">
+						<table class="table">
+						<tr>
+							<td> 번호 </td>
+							<td> 카테고리 </td>
+							<td> 이름 </td>
+							<td> 수량 </td>
+							<td> </td>
+						</tr>
+						
+						<%
+						ArrayList<ItemVO> itemList = new ArrayList<>();
+						AdminOnlyDAO adminDAO = new AdminOnlyDAO();
+						itemList = adminDAO.getAllProduct();
+						
+						for(ItemVO item : itemList) {
+						
+						%>
+						<tr>
+							<td> <%=item.getItemNo() %> </td>
+							<td> <%=item.getCategoryNo() %> </td>
+							<td> <%=item.getName() %> </td>
+							<td> <%=item.getCount() %> </td>
+							<td> <a class="btn btn-danger pull-right" href="/admin/process/adminProductDeleteProcess.jsp?productNO=<%=item.getItemNo() %>"> 상품 삭제 </a></td>
+						</tr>
+						
+						<%
+						}
+						%>						
+						
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

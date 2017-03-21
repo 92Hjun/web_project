@@ -1,0 +1,4 @@
+1485945682124	Move 'addBuy.jsp' to 'WebContent'
+1485996707789	Encapsulate field 'color'
+1485996714661	Encapsulate field 'size'
+1486093865164	Rename type 'BuyDAO'

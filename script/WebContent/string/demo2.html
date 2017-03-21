@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form method="post" action="register.jsp" onsubmit="return formCheck()">
+		이름: <br /> <input type="text" id="user-name" name="userName" /> <br />
+		아이디: <br /> <input type="text" id="user-id" name="userId" /> <br />
+		비밀번호: <br /> <input type="password" id="user-pwd" name="userPwd" /><br /> 
+		연락처: <br /> <input type="text" id="user-tel" name="userTel" /><br />
+		<button type="submit">등록</button>
+	</form>
+</body>
+<script type="text/javascript">
+	function formCheck() {
+
+		// 사용자 이름이 입력되었는지 체크하기(두글자이상)
+		var nameEL = document.getElementById("user-name");
+		var name = nameEL.value.trim();
+		if (name == "") {
+			alert("아이디는 필수로 입력해야합니다.");
+			nameEL.focus();
+			return false;
+		}
+		var pattern = /^[가-힣]{2,}$/;
+		if (!pattern.test(name)) {
+			alert("이름은 한글 2글자 이상이여야 합니다.");
+			return false;
+		}
+
+		// 사용자 아이디가 입력되었는지 체크하기 (6글자 이상)
+		var idEL = document.getElementById("user-id");
+		var id = idEL.value.trim();
+		if (id == "") {
+			alert("아이디는 필수로 입력해야 합니다.");
+			idEL.focus();
+			return false;
+		}
+		
+		var pattern2 = /^[a-zA-Z][a-zA-Z0-9]{5,11}$/;
+		if (!pattern2.test(id)) {
+			alert("아이디는 첫글자는 영문자이고, 영문자/숫자를 포함하고있는 6~12글자를 입력해야 합니다.");
+			idEL.focus();
+			return false;
+		}
+		
+		var pwdEL = document.getElementById("user-pwd");
+		var pwd = pwdEL.value.trim();
+		if (pwd == "") {
+			alert("비밀번호는 필수로 입력해야 합니다.");
+			pwd.focus();
+			return false;
+		}
+		
+		var pattern3 = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/;
+		if (!pattern3.test(pwd)) {
+			alert("비밀번호는 8글자 이상, 하나이상의 대문자,소문자,숫자,특수문자를 포함해야 합니다.");
+			pwdEL.focus();
+			return false;
+		}
+		
+		var telEL = document.getElementById("user-tel");
+		var tel = telEL.value.trim();
+		var pattern4 = /^01[016789]-\d{3,4}-\d{4}$/;
+		if (!pattern4.test(tel)) {
+			alert("유효한 전화번호 형식이 아닙니다.");
+			telEL.focus();
+			return false;
+			
+		}
+		
+		return true;
+	}
+</script>
+</html>

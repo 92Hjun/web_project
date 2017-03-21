@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+
+	// 정규표현식 (reguler expression)
+	// 특별한 규칙(패턴)을 가지는 문자열을 표현할 때 사용되는 언어
+	// 텍스트편집기, 프로그래밍 언어에서 문자열의 검색/치환 작업에 유용하게 사용된다.
+	
+	// 자바스크립트의 정규표현식: /패턴/제어문자
+	// 제어문자 
+	// 		i : case-insensitive (대소문자 구별없이 매칭)
+	//		g : global match	 (매칭되는 모든 문자열을 작용)
+	//		m : multiline match	 (멀티라인 매칭)
+	
+	
+	/*
+		정규표현식의 패턴 표기법
+		.			한개의 문자와 일치한다.
+		[]			"["와 "]"사이의 문자중 하나를 선택한다.
+		-			"-"와 같이 사용되면 범위를 지정한다.[a-z] 영어 a ~ z까지의 문자가 포함되어있는지 확인한다.
+		[^]			부정, 지정된 문자를 제외한 나머지를 선택한다.
+		^			처음, 문자열이나 행의 처음을 의미한다.
+		$			끝, 문자열이나 행의 끝을 의미한다.
+		{m,n}		횟수, m회 이상 n회 이하를 의미한다.
+		?			0 또는 1회
+		*			0회 이상
+		+			1회 이상
+		|			선택, 010|011|017
+		\w			"_"를 포함한 영문자, 숫자와 일치시킨다.
+		\W			"_"를 제외한 영문자, 숫자가 아닌 문자와 일치시킨다.
+		\s			공백문자와 일치시킨다.
+		\S			공백을 제외한 다른 문자와 일치시킨다.
+		\d			숫자와 일치시킨다.
+		\D			숫자가 아닌것과 일치시킨다.
+	*/
+	
+	
+	// 자바스크립트 정규표현식의 주요 메소드
+	// test()	:	문자열에서 정규표현식 패턴과 매칭되는 표현이 있는지 여부를 true/false로 반환한다.
+	
+	var text1 = "hello world";
+	var pattern1 = /hello/;
+	var result1 = pattern1.test(text1);
+	console.log(result1);
+	
+	var pattern2 = /h.l/;
+	var result2 = pattern2.test(text1);
+	console.log(result2);
+	
+	var pattern3 = /l{2}/
+	var result3 = pattern3.test(text1);
+	console.log(result3);
+	
+	
+</script>
+</html>

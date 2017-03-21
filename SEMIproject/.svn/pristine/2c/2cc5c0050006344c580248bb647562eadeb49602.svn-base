@@ -1,0 +1,12 @@
+<%@page import="dao.AdminOnlyDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false" trimDirectiveWhitespaces="true" %>
+ 
+<%
+	int BoardDelNo = Integer.parseInt(request.getParameter("BoardDelNo"));
+	
+	AdminOnlyDAO adminDAO = new AdminOnlyDAO();
+	adminDAO.boardDelete(BoardDelNo);
+	  
+	response.sendRedirect("/admin/adminBoardManagement.jsp");
+%>

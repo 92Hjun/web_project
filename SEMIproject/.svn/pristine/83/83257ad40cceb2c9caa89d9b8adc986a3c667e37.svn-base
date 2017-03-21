@@ -1,0 +1,65 @@
+<%@page import="vo.UserVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false"%>
+<!DOCTYPE html >
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>title</title>
+</head>
+<body>
+	<%@include file="/nav.jsp"%>
+	<div class="container">
+		<h3>
+			<span>My Page</span>
+		</h3>
+		<div class="table-responsive">
+			<table class="table">
+				<tbody>
+					<tr>
+						<th>ID</th>
+						<td><label id="id-field"> </label></td>
+					</tr>
+					<tr>
+						<th>Name</th>
+						<td><label id="Name-field"> </label></td>
+					</tr>
+					<tr>
+						<th>Level</th>
+						<td><label id="Level-field"> </label></td>
+					</tr>
+					<tr>
+						<th>Point</th>
+						<td><label id="Point-field"> </label></td>
+					</tr>
+					<tr>
+						<th>Phone</th>
+						<td><label id="Phone-field"> </label></td>
+					</tr>
+					<tr>
+						<th>Address</th>
+						<td><label id="Address-field"> </label></td>
+					</tr>
+					<tr>
+						<th>Birthday</th>
+						<td><label id="Birthday-field"> </label></td>
+					</tr>
+					<tr>
+						<th></th>
+						<td><label id="-field"> </label></td>
+					</tr>
+				</tbody>
+
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import util.ConnectionUtil;
+import vo.BuyVO;
+
+public class AddBuyDAO {
+	static final String ADD_BUY = "insert into MALL_BUY (BUY_ITEM_NAME, BUY_USER_NAME, BUY_COUNT, BUY_COMPLETED, BUY_ORDER_NO, BUY_NO, BUY_DATE)"
+							   + " values (?,?,?,'NO',?,SEQ_MALL_BUY_BUY_NO.nextval,sysdate)";
+	public void addBuy(BuyVO buy, int no)throws SQLException {
+		Connection con = ConnectionUtil.getConnection();
+		PreparedStatement ps = con.prepareStatement(ADD_BUY);
+		//ps.setString(1, buy.getBuyItemName());
+		//ps.setString(2, buy.getBuyUserName());
+		//ps.setInt(3, buy.getBuyCoutn());
+		ps.setInt(4, no);
+		
+		ps.executeUpdate();
+		
+		ps.close();
+		con.close();
+	}
+}

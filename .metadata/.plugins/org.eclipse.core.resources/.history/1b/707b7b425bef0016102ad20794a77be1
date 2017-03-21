@@ -1,0 +1,13 @@
+package app;
+
+import org.junit.Test;
+
+public class SampleTest2 {
+	
+	// 테스트 메소드
+	@Test
+	public void testPlus() {
+		
+	}
+	
+}

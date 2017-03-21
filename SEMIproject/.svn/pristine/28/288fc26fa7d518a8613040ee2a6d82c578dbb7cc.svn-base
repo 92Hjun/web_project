@@ -1,0 +1,41 @@
+<%@page import="dao.MemberDAO"%>
+<%@page import="vo.UserVO"%>
+<%@page import="util.MD5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false"%>
+<%
+	request.setCharacterEncoding("utf-8");
+
+	// 회원가입폼에 입력한 값 받아오기
+	String id = request.getParameter("id");
+	String pw = request.getParameter("pw");
+	String name = request.getParameter("name");
+	String phone = request.getParameter("phone");
+	String birth = request.getParameter("birth");
+	String addr = request.getParameter("addr");
+	
+	// 점진적 코딩중
+	System.out.println("아이디 : " + id);
+	System.out.println("비밀번호: " + pw);
+	System.out.println("이름 : " + name);
+	System.out.println("핸드폰번호 : " + phone);
+	System.out.println("생일 : " + birth);
+	System.out.println("주소 : " + addr);
+	
+	// 비밀번호를 암호화한다. 32자리의 암호문으로 바뀜
+	String secuPwd = MD5.hash(pw);
+	
+	// user디비에 저장한다.
+	UserVO user = new UserVO();
+	user.setId(id);
+	user.setPw(secuPwd);
+	user.setName(name);
+	user.setPhone(phone);
+	user.setBirth(birth);
+	user.setAddr(addr);
+	
+	MemberDAO dao = new MemberDAO();
+	dao.join(user);	
+	
+	response.sendRedirect("/member/view/loginForm.jsp");
+%>

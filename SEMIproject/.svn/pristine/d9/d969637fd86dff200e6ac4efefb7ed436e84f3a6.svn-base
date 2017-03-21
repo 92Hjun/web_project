@@ -1,0 +1,114 @@
+<%@page import="java.sql.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="vo.BuyVO"%>
+<%@page import="dao.AdminOnlyDAO"%>
+<%@page import="vo.CartVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false" trimDirectiveWhitespaces="true"%>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- 추가한 CSS -->
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<!-- 모든유저가 보는 네비바 -->
+<%@include file="/nav.jsp"%>
+
+<!-- Admin의 네비바 -->
+<%@include file="adminNav.jsp"%>
+
+<body>
+<!-- LogingCheck And Admin Check -->
+<%
+	if(session == null) {
+	response.sendRedirect("/main.jsp?err");
+	return;
+	}
+	request.setCharacterEncoding("utf-8");
+	
+	UserVO user = (UserVO) session.getAttribute("LOGINED_USER");
+	
+	if(!"admin".equals(user.getId())) {
+		response.sendRedirect("/main.jsp?YourNotManager!");
+		return;
+	}
+%>
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3>판매 목록</h3>
+					</div>
+					<div class="panel-body">
+						<table class="table">
+						<tr>
+							<td> 구매번호 </td>
+							<td> ORDER NO </td>
+							<td> 상품번호 </td>
+							<td> 구매자 번호 </td>
+							<td> 수량 </td>
+							<td> 배송 </td>
+							<td> 구매일 </td>
+							<td>  </td>
+						</tr>
+						
+						<%
+						ArrayList<BuyVO> buyList = new ArrayList<>();
+						
+						AdminOnlyDAO adminDAO = new AdminOnlyDAO();
+						buyList = adminDAO.getAllbuy();
+						 
+						for(BuyVO buy : buyList) {
+							
+						%>
+						
+						<tr> 
+							<td> <%=buy.getBuyNo() %> </td>
+							<td> <%=buy.getBuyOrderNo() %> </td>
+							<td> <%=buy.getBuyItemName() %> </td>
+							<td> <%=buy.getBuyUserName() %> </td>
+							<td> <%=buy.getBuyCoutn() %> </td>
+							<td> <%=buy.getBuyCompleted() %> </td>
+							<td> <%=buy.getBuyDate() %> </td>
+							<td> 
+						<%
+							if("YES".equals(buy.getBuyCompleted())){
+						%>
+							<a class="btn btn-success pull-right disabled"> 배송 완료 </a>
+						<%	
+							} else { 
+						%>	
+							<a class="btn btn-info pull-right" href="/admin/process/adminPurchaseListProcess.jsp?buyno=<%=buy.getBuyNo() %>"> 배송 준비중 </a>
+						<%			
+							}
+						%>
+							</td>
+						</tr>
+						<%
+						}
+						%>
+						
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

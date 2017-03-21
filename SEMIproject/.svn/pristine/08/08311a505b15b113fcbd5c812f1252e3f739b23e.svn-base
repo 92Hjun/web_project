@@ -1,0 +1,14 @@
+<%@page import="dao.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false"%>
+<%
+String tno = request.getParameter("tno");
+String bno = request.getParameter("bno");
+BoardDAO dao = new BoardDAO();
+if(bno != null) {
+	dao.deleteBoardByNo(bno);
+	response.sendRedirect("/board/product/productBoard.jsp?tno="+tno);
+} else {
+	response.sendRedirect("/board/product/productBoard.jsp?tno="+tno+"&err=deny");
+}
+%>

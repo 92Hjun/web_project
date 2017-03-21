@@ -1,0 +1,110 @@
+<%@page import="util.MD5"%>
+<%@page import="vo.BoardVO"%>
+<%@page import="dao.BoardDAO"%>
+<%@page import="util.NumberUtil"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false"%>
+<%
+// 파라미터 방어 코드
+String tNo = request.getParameter("tno");
+String pno = request.getParameter("pno");
+String bno = request.getParameter("bno");
+int tno = 1;
+if(tNo != null) {
+	tno = Integer.parseInt(tNo);
+} else {
+	response.sendRedirect("/member/view/loginForm.jsp?err=deny");
+	return;
+}
+int pageNo = NumberUtil.StringToInt(pno, 1);
+
+BoardDAO dao = new BoardDAO();
+BoardVO vo = dao.getBoardDetailByNo(Integer.parseInt(bno));
+String getPwd = request.getParameter("boardPwd");
+String getPwdChange = MD5.hash(getPwd);
+if(!vo.getBoardPwd().equals(getPwdChange)) {
+	response.sendRedirect("/board/product/secret.jsp?tno="+tNo+"&pno="+pno+"&bno="+bno+"&err=deny");
+	return;
+}
+
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>Edit Board Detail</title>
+</head>
+<body>
+<%@include file="../../nav.jsp"%>
+	<div class="container">
+		<form action="/board/product/editBoardDetail.jsp" method="post">
+		<input type="hidden" name="tno" value="<%=tNo %>"/>
+		<input type="hidden" name="pno" value="<%=pno %>"/>
+		<input type="hidden" name="bno" value="<%=bno %>"/>
+			<div style="padding-bottom: 10px; padding-top: 10px; text-align: center;">
+				<h5><%if(tno == 1)  { %>
+					교환/반품요청
+				<%} else if (tno == 2) { %> 
+					배송전 변경
+				<%} else if (tno == 3) { %> 
+					상품 문의
+				<%} else if (tno == 4) { %> 
+					기타 문의<%}%></h5>
+				<p><strong style="font-size: 15px;">/</strong><br />
+						문의사항
+				</p><br />
+			</div>
+			<br />
+			<div style="width: auto;">
+				<table class="table table-default" style="border: 1px solid; border-color: #dddddd;">
+					<colgroup>
+						<col width="15%" />
+						<col width="*" />
+					</colgroup>
+					<tr>
+						<th class="tableTh1">제목</th>
+						<td><%=vo.getBoardTitle()%></td>
+					</tr>
+					<tr>
+						<th class="tableTh1">작성자</th>
+						<td><%=vo.getUserName() %></td>
+					</tr>
+					<tr>
+						<th class="tableTh1">작성일</th>
+						<td></td>
+					</tr>
+					<tr>
+						<th class="tableTh1">카테고리</th>
+						<td><%=vo.getBoardCategory() %></td>
+					</tr>
+					<tr>
+						<th class="tableTh1">내용</th>
+						<td><%=vo.getBoardContents() %></td>
+					</tr>
+				</table>
+			</div>
+				<a href="/board/product/productBoard.jsp?tno=<%=tno %>&pno=<%=pno %>" class="btn btn-default">목록</a>
+			<div class="pull-right">
+				<button type="submit" class="btn btn-info">수정</button>
+				<a href="/board/product/deleteBoard.jsp?tno=<%=tno %>&bno=<%=bno %>&tno=<%=tno %>" class="btn btn-danger">삭제</a>
+			</div>
+		</form>
+	</div>
+<%@include file="../../footer.jsp" %>
+</body>
+<script type="text/javascript">
+ function contentsCheck(){
+	 var contentsEL = document.getElementById("contents");
+	 var contens = contentsEL.value.trim();
+	 if (contens=="") {
+		alert("내용을 입력하세요.");
+		return false;
+	 }
+	 return true;
+ }
+</script>
+</html>

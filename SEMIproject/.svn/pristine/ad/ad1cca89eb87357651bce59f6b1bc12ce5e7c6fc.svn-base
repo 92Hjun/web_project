@@ -1,0 +1,95 @@
+<%@page import="dao.AdminOnlyDAO"%>
+<%@page import="vo.BoardVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false" trimDirectiveWhitespaces="true"%>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- 추가한 CSS -->
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<!-- 모든유저가 보는 네비바 -->
+<%@include file="/nav.jsp"%>
+
+<!-- Admin의 네비바 -->
+<%@include file="adminNav.jsp"%>
+
+<body>
+
+<!-- LogingCheck And Admin Check -->
+<%
+	if(session == null) {
+	response.sendRedirect("/main.jsp?err");
+	return;
+	}
+	request.setCharacterEncoding("utf-8");
+	
+	UserVO user = (UserVO) session.getAttribute("LOGINED_USER");
+	
+	if(!"admin".equals(user.getId())) {
+		response.sendRedirect("/main.jsp?YourNotManager!");
+		return;
+	}
+%>
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3>전체 글 목록</h3>
+					</div>
+					<div class="panel-body">
+						<a class="btn btn-info pull-right" href="#"> 공지사항 작성 </a>
+					<table class="table">
+						<tr>
+							<td> 글번호 </td>
+							<td> 카테고리 </td>
+							<td> 제목 </td>
+							<td> 글쓴이 </td>
+							<td> 등록일 </td>
+							<td> </td>
+						</tr>
+						<%
+						
+						ArrayList<BoardVO> boardList = new ArrayList<>();
+						AdminOnlyDAO adminDAO = new AdminOnlyDAO();
+						
+						boardList = adminDAO.getAllBoard();
+						
+						for(BoardVO board : boardList) {
+						%>
+						<tr>
+							<td> <%=board.getBoardNo() %> </td>
+							<td> <%=board.getBoardCategory() %> </td>
+							<td> <%=board.getBoardTitle() %> </td>
+							<td> <%=board.getUserName() %> </td>
+							<td> <%=board.getBoardRegdate() %> </td>
+							<td> <a class="btn btn-danger pull-right" href="/admin/process/adminBoardManagementDelete.jsp?BoardDelNo=<%=board.getBoardNo() %>"> 글 삭제 </a></td>
+						</tr>
+						<%
+						}
+						%>
+					</table>
+					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

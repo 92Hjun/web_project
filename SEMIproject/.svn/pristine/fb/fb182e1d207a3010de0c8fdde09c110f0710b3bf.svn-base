@@ -1,0 +1,172 @@
+<%@page import="vo.UserVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false"%>
+<link rel="stylesheet" href="/css/style.css">
+<div class="jumbotron text-center">
+	<a href="/main.jsp"><h2>BrandName</h2></a>
+</div>
+<nav class="navbar navbar-default">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Brand</a>
+		</div>
+
+		<%
+			HttpSession session = request.getSession(false);
+		%>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class=""><a href="#">ALL</a></li>
+				<li class=""><a href="#">NEW</a></li>
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-expanded="false">OUTER
+						<span class="caret"></span>
+				</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">COAT</a></li>
+						<li class="divider"></li>
+						<li><a href="#">PADDING</a></li>
+						<li class="divider"></li>
+						<li><a href="#">JAKET</a></li>
+						<li class="divider"></li>
+						<li><a href="#">CARDIGAN</a></li>
+						<li class="divider"></li>
+						<li><a href="#">BLAZER</a></li>
+					</ul>
+				</li>
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-expanded="false">TOP
+						<span class="caret"></span>
+				</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">M TO M</a></li>
+						<li class="divider"></li>
+						<li><a href="#">T-SHIRTS</a></li>
+						<li class="divider"></li>
+						<li><a href="#">KNIT</a></li>
+						<li class="divider"></li>
+						<li><a href="#">HOODIE</a></li>
+						<li class="divider"></li>
+						<li><a href="#">SHIRTS</a></li>
+					</ul>
+				</li>
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-expanded="false">BOTTOM
+						<span class="caret"></span>
+				</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">JEAN</a></li>
+						<li class="divider"></li>
+						<li><a href="#">SHORTS</a></li>
+						<li class="divider"></li>
+						<li><a href="#">TRAINER PANTS</a></li>
+						<li class="divider"></li>
+						<li><a href="#">SLACKS</a></li>
+					</ul>
+				</li>
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-expanded="false">ACC
+						<span class="caret"></span>
+				</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">BELT</a></li>
+						<li class="divider"></li>
+						<li><a href="#">HAT</a></li>
+						<li class="divider"></li>
+						<li><a href="#">WATCH</a></li>
+						<li class="divider"></li>
+						<li><a href="#">SUNGLASS</a></li>
+					</ul>
+				</li>
+				<li class=""><a href="#">SALE</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+			<%
+				boolean isLogined = false;
+				boolean isAdmin = false;
+				UserVO _user = null;
+				
+				if (session != null) {
+					
+					_user = (UserVO) session.getAttribute("LOGINED_USER");
+					if (_user != null) {
+						isLogined = true;
+						if (_user.getId().equals("admin")) {
+							isAdmin = true;
+						}
+					}
+				}
+			%>
+			<%
+			if (!isLogined) {
+			%>
+			
+	            <!-- 비 로그인 유저가 보는 메뉴 -->
+	            <li><a href="/member/view/loginForm.jsp"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Sign in</a></li>
+	            <% 
+			}else {
+	      
+	       		 if (isAdmin) {
+	         %>
+		            <li class=""><a href="/admin/adminIndex.jsp"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Admin</a></li>
+			<%
+				} else {
+			%>
+					
+		            <li><a href="/mypage/view/mypageForm.jsp"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>My Account</a></li>
+		            <li><a href="/member/pro/logout.jsp"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>Logout</a></li>
+					<li><a href="/cart.jsp"><span class="glyphicon glyphicon-pawn" aria-hidden="true"></span>cart</a></li>
+            <% 
+				}
+			}
+            %>
+				<li class="dropdown">
+					<a id="searchA" href="#" class="dropdown-toggle"data-toggle="dropdown" role="button" aria-expanded="false">
+						<span class="glyphicon glyphicon-bishop" aria-hidden="true"></span>
+						search
+					</a>
+					<ul id="dropUl" class="dropdown-menu" role="menu">
+						<li>
+							<form method="post" action="search.jsp" class="inline-form" role="search">
+								<div class="form-group text-right">
+										<input type="text" class="form-control" placeholder="searchByEnter">
+								</div>
+							</form>
+						</li>
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a id="searchA" href="board.jsp" class="dropdown-toggle"data-toggle="dropdown" role="button" aria-expanded="false">
+						<span class="glyphicon glyphicon-king" aria-hidden="true"></span>
+						board
+					</a>
+					<ul id="dropUl" class="dropdown-menu" role="menu">
+						<li><a href="/board/notice.jsp">NOTICE</a></li>
+						<li class="divider"></li>
+						<li><a href="/board/fna.jsp">FAQ</a></li>
+						<li class="divider"></li>
+						<li><a href="https://www.doortodoor.co.kr/parcel/pa_004.jsp" target="_blank">DELEVERY</a></li>
+						<li class="divider"></li>
+						<li><a href="/board/qna.jsp">Q&amp;A</a></li>
+						<li class="divider"></li>
+						<li><a href="#">REVIEW</a></li>
+						<li class="divider"></li>
+						<li><a href="#">WANTED</a></li>
+						<li class="divider"></li>
+						<li><a href="#">EVENT</a></li>
+						<li class="divider"></li>
+						<li><a href="#">ONLY YOU</a></li>
+					</ul>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+</nav>

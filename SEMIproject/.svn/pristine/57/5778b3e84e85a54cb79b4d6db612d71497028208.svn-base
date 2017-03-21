@@ -1,0 +1,14 @@
+package dao;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import vo.BuyVO;
+
+public class BuyDAO {
+	public ArrayList<BuyVO> addBuy()throws SQLException {
+		ArrayList<BuyVO> buyList = new ArrayList<>();
+		
+		return buyList;
+	}
+}

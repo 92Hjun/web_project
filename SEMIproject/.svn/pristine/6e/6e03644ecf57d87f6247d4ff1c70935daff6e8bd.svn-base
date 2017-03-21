@@ -1,0 +1,68 @@
+package vo;
+
+import java.util.Date;
+
+public class ReviewVO {
+	private int reviewNo;
+	private int reviewContents;
+	private Date reviwRegDate;
+	private int reviewGroupNo;
+	private int reviewUserNo;
+	private String reviewUserName;
+	
+	public ReviewVO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	public ReviewVO(int reviewNo, int reviewContents, Date reviwRegDate, int reviewGroupNo, int reviewUserNo,
+			String reviewUserName) {
+		super();
+		this.reviewNo = reviewNo;
+		this.reviewContents = reviewContents;
+		this.reviwRegDate = reviwRegDate;
+		this.reviewGroupNo = reviewGroupNo;
+		this.reviewUserNo = reviewUserNo;
+		this.reviewUserName = reviewUserName;
+	}
+
+
+	public int getReviewNo() {
+		return reviewNo;
+	}
+	public void setReviewNo(int reviewNo) {
+		this.reviewNo = reviewNo;
+	}
+	public int getReviewContents() {
+		return reviewContents;
+	}
+	public void setReviewContents(int reviewContents) {
+		this.reviewContents = reviewContents;
+	}
+	public Date getReviwRegDate() {
+		return reviwRegDate;
+	}
+	public void setReviwRegDate(Date reviwRegDate) {
+		this.reviwRegDate = reviwRegDate;
+	}
+	public int getReviewGroupNo() {
+		return reviewGroupNo;
+	}
+	public void setReviewGroupNo(int reviewGroupNo) {
+		this.reviewGroupNo = reviewGroupNo;
+	}	
+	public int getReviewUserNo() {
+		return reviewUserNo;
+	}
+	public void setReviewUserNo(int reviewUserNo) {
+		this.reviewUserNo = reviewUserNo;
+	}
+	public String getReviewUserName() {
+		return reviewUserName;
+	}
+	public void setReviewUserName(String reviewUserName) {
+		this.reviewUserName = reviewUserName;
+	}
+
+}

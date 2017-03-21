@@ -1,0 +1,16 @@
+<%@page import="dao.AddBuyDAO"%>
+<%@page import="java.util.Random"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false"%>
+<%
+	request.setCharacterEncoding("utf-8");
+	String id = request.getParameter("userId");
+	int itemNo = Integer.parseInt(request.getParameter("itemNo"));
+	int count = Integer.parseInt(request.getParameter("count"));
+	double disCount = Double.parseDouble(request.getParameter("disCount"));
+	AddBuyDAO dao = new AddBuyDAO();
+	int orderNo = dao.orderNo();
+	
+	System.out.println("이름 "+id + "아이템 번호 " + itemNo + "수량 " + count + "할인율 " + disCount +"주문번호 " + orderNo);
+	
+%>

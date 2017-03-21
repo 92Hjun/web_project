@@ -1,0 +1,46 @@
+<%@page import="dao.MemberDAO"%>
+<%@page import="vo.UserVO"%>
+<%@page import="util.MD5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false"%>
+<%
+	request.setCharacterEncoding("utf-8");
+
+	// 로그인 세션 가져오기
+
+	// 수정한 항목의 값 받아오기
+	String phone = request.getParameter("updatePhone");
+	String birth = request.getParameter("updateBirth");
+	String addr = request.getParameter("updateAddr");
+	String pw = request.getParameter("pw");
+	String confirmPw = request.getParameter("confirmPw");
+	String userNo = request.getParameter("userNo");
+	
+	// 점진적코딩
+	System.out.println(phone);
+	System.out.println(birth);
+	System.out.println(addr);
+	System.out.println(pw);
+	System.out.println(confirmPw);
+
+	//비밀번호 암호화
+	String secuPwd = MD5.hash(pw);
+	System.out.println(secuPwd);
+	
+	// user디비에 업데이트		
+	if(pw.equals(confirmPw)) {
+		UserVO vo = new UserVO();
+		vo.setPhone(phone);
+		vo.setBirth(birth);
+		vo.setAddr(addr);
+		vo.setPw(secuPwd);
+		vo.setNo(Integer.parseInt(userNo));
+		MemberDAO dao = new MemberDAO();
+		dao.updateUserInfo(vo);
+	} else {
+		response.sendRedirect("/mypage/view/editMyAccountForm.jsp?err=deny");
+		return;
+	}
+
+	response.sendRedirect("/mypage/view/mypageForm.jsp?editsuccess="+userNo+"&re=main");
+%>

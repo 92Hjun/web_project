@@ -1,0 +1,86 @@
+package vo;
+
+import java.sql.Date;
+
+public class BuyVO {
+
+	private int buyNo;
+	private String buyItemName;
+	private String buyUserName;
+	private int buyCoutn;
+	private String buyCompleted;
+	private int buyOrderNo;
+	private Date buyDate;
+
+	public BuyVO() {
+	}
+
+	public BuyVO(int buyNo, String buyItemName, String buyUserName, int buyCoutn, String buyCompleted, int buyOrderNo,
+			Date buyDate) {
+		super();
+		this.buyNo = buyNo;
+		this.buyItemName = buyItemName;
+		this.buyUserName = buyUserName;
+		this.buyCoutn = buyCoutn;
+		this.buyCompleted = buyCompleted;
+		this.buyOrderNo = buyOrderNo;
+		this.buyDate = buyDate;
+	}
+
+	public int getBuyNo() {
+		return buyNo;
+	}
+
+	public void setBuyNo(int buyNo) {
+		this.buyNo = buyNo;
+	}
+
+	public String getBuyItemName() {
+		return buyItemName;
+	}
+
+	public void setBuyItemName(String buyItemName) {
+		this.buyItemName = buyItemName;
+	}
+
+	public String getBuyUserName() {
+		return buyUserName;
+	}
+
+	public void setBuyUserName(String buyUserName) {
+		this.buyUserName = buyUserName;
+	}
+
+	public int getBuyCoutn() {
+		return buyCoutn;
+	}
+
+	public void setBuyCoutn(int buyCoutn) {
+		this.buyCoutn = buyCoutn;
+	}
+
+	public String getBuyCompleted() {
+		return buyCompleted;
+	}
+
+	public void setBuyCompleted(String buyCompleted) {
+		this.buyCompleted = buyCompleted;
+	}
+
+	public int getBuyOrderNo() {
+		return buyOrderNo;
+	}
+
+	public void setBuyOrderNo(int buyOrderNo) {
+		this.buyOrderNo = buyOrderNo;
+	}
+
+	public Date getBuyDate() {
+		return buyDate;
+	}
+
+	public void setBuyDate(Date buyDate) {
+		this.buyDate = buyDate;
+	}
+
+}

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="com.dell.toadext.oracle.nui.viewer.detail.OraQueryResultViewer">
+		<section name="fcc27afe-79c3-44ad-a10b-25fe62f440e3#TB_PRODUCT">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="fcc27afe-79c3-44ad-a10b-25fe62f440e3#TB_CART">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="fcc27afe-79c3-44ad-a10b-25fe62f440e3#TB_STUDENT">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="fcc27afe-79c3-44ad-a10b-25fe62f440e3#TB_USER">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="fcc27afe-79c3-44ad-a10b-25fe62f440e3#SAMPLE_PAYMENT">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="fcc27afe-79c3-44ad-a10b-25fe62f440e3#SAMPLE_CUSTOMER">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="60fcaa9a-2123-4191-b383-6a0fd76cf71a#MALL_ITEM">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="17064580-1990-4462-a669-a95db272a903#TB_USER">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="fcc27afe-79c3-44ad-a10b-25fe62f440e3#TB_GALLERY">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="60fcaa9a-2123-4191-b383-6a0fd76cf71a#MALL_USER">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="17064580-1990-4462-a669-a95db272a903#TB_TODO">
+		</section>
+		<section name="fcc27afe-79c3-44ad-a10b-25fe62f440e3#TB_BOARD">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="fcc27afe-79c3-44ad-a10b-25fe62f440e3#TB_ITEM">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="60fcaa9a-2123-4191-b383-6a0fd76cf71a#MALL_PAY">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="60fcaa9a-2123-4191-b383-6a0fd76cf71a#MALL_BUY">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="60fcaa9a-2123-4191-b383-6a0fd76cf71a#USER_ORDERLIST_VIEW">
+		</section>
+		<section name="fcc27afe-79c3-44ad-a10b-25fe62f440e3#TB_TODO">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="60fcaa9a-2123-4191-b383-6a0fd76cf71a#MALL_BUY_TEMP">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="60fcaa9a-2123-4191-b383-6a0fd76cf71a#MALL_CART">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="fcc27afe-79c3-44ad-a10b-25fe62f440e3#EMPLOYEES">
+		</section>
+		<section name="fcc27afe-79c3-44ad-a10b-25fe62f440e3#TB_BOOK">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+		<section name="60fcaa9a-2123-4191-b383-6a0fd76cf71a#MALL_BUY_ITEM">
+			<item value="" key="where"/>
+			<list key="whereHistory">
+			</list>
+			<list key="hidden">
+			</list>
+			<list key="order">
+			</list>
+		</section>
+	</section>
+</section>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<canvas id='canv'>
+	</canvas>
+	<h1>학생추가</h1>
+	<form method="post" action="StudentServlet">
+		이름: <input type="text" name="name"><br/>
+		전공: <input type="text" name="major"><br/>
+		학년: <input type="text" name="grade"><br/>
+		전화번호: <input type="text" name="phone"><br/>
+		<button>등록</button>
+	</form>
+	
+	<h1>학년으로 학생조회</h1>
+	<form method="post" action="SerchStudent">
+		<input type="text" name="stuNo"><button>조회</button>
+	</form>
+</body>
+</html>

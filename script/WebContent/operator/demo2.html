@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>
+	Insert title here
+</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+
+	// 조건문이 와야되는것에 false로 판단하는 것들을 
+	// 제외한 전부가 오면 true로 실행된다.
+	var name = prompt("이름을 입력하세요.", '');
+	console.log('입력한 이름: ' + name);
+	if (name) {
+		alert(name + "님 반갑습니다.");
+	}else {
+		alert("이름을 입력해주세요.");
+		
+	}
+	
+	// 100자체가 true이기 때문에 100이 변수 result에 담긴다.
+	var result = ( null || 100 );
+	console.log(result);
+	
+	// 앞에 논리연산자로 비교한것이 true이기때문에 
+	// 뒤에는 확인을 안하고 바로 true 인 값을 변수에 담는다
+	var result = ( 100 || 200 );
+	console.log(result);
+	
+</script>
+</html>

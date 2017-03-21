@@ -1,0 +1,15 @@
+<%@page import="dao.AdminOnlyDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false" trimDirectiveWhitespaces="true" %>
+ 
+<%	
+	request.setCharacterEncoding("utf-8");
+
+	String title = request.getParameter("title");
+	String content = request.getParameter("contents");
+	
+	AdminOnlyDAO adminDAO = new AdminOnlyDAO();
+	adminDAO.noticeWrite(title,content);
+	
+	response.sendRedirect("/admin/adminBoardManagement.jsp");
+%>

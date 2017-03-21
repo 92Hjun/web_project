@@ -1,0 +1,79 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false"%>
+<!DOCTYPE html >
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>LOGIN</title>
+<style type="text/css">
+</style>
+</head>
+<body>
+<%@include file="/nav.jsp" %>
+<% 
+   String err = request.getParameter("err");
+   if(err != null) {
+      if(err.equals("deny")) {
+%>
+      <script type="text/javascript"> alert("로그인 후 이용 가능합니다.");</script>
+<%
+      }
+   }
+%>
+	<div class="container">
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h6>Sign In</h6>
+						</div>
+					
+					<div class="panel-body">
+						<form class="form-inline" action="/member/pro/login.jsp">
+						<br/>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>
+								</span> <input id="email" type="text" class="form-control" name="email" placeholder="aa@cc.com">
+							</div>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span> 
+								<input id="password" 	type="password" class="form-control" name="password" placeholder="Password=aa">
+							</div>
+							<div class="checkbox">
+								<label><input type="checkbox"> Remember me </label>
+							</div>
+							<button type="submit" class="btn btn-warning"> LOGIN</button><br/>
+							<a href="SearchMyPwForm.jsp">Forgot Id/Password?</a>
+							
+							<br/><br/>
+ 						 	<h5>New Customer?</h5>
+  							<a href="/member/view/joinForm.jsp" class="btn btn-default btn-lg btn-block col-md-8">JOIN</a> 
+  							<br/><br/>
+  							
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2">
+				
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+

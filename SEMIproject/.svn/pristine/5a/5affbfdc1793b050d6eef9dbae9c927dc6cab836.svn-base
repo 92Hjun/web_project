@@ -1,0 +1,73 @@
+<%@page import="vo.UserVO"%>
+<%@page import="dao.AddBuyDAO"%>
+<%@page import="java.util.Random"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false"%>
+<%
+	HttpSession session = request.getSession(false);
+
+	UserVO user = (UserVO)session.getAttribute("LOGINED_USER");
+	
+	UserVO testUser = new UserVO();
+	
+	testUser.setAddr(user.getAddr());
+	testUser.setBirth(user.getBirth());
+	testUser.setEmailcheck(user.getEmailcheck());
+	testUser.setEmailcode(user.getEmailcode());
+	testUser.setGrade(user.getGrade());
+	testUser.setId(user.getId());
+	testUser.setName(user.getName());
+	testUser.setNo(user.getNo());
+	testUser.setPhone(user.getPhone());
+	testUser.setPoint(user.getPoint());
+	testUser.setPw(user.getPw());
+	testUser.setRegdate(user.getRegdate());
+	testUser.setTotalPoint(user.getTotalPoint());
+	
+	System.out.println("포인트"+user.getPoint());
+	
+	session.removeAttribute("LOGINED_USER");
+	
+	request.setCharacterEncoding("utf-8");
+	String id = request.getParameter("userId");
+	String[] itemNo = request.getParameterValues("itemNo");
+	String[] count = request.getParameterValues("count");
+	int usePoint = Integer.parseInt(request.getParameter("usepoint"));
+	String size = request.getParameter("size");
+	String color = request.getParameter("color");
+	double disCount = Double.parseDouble(request.getParameter("disCount"));
+	
+	String[] productCounts = request.getParameterValues("productCounts");
+	
+	for (int i=0; i<itemNo.length; i++) {
+		int no = Integer.parseInt(itemNo[i]);
+		int itemCount = Integer.parseInt(count[i]);
+		int productCount = Integer.parseInt(productCounts[i]);
+	}
+	
+	
+	AddBuyDAO dao = new AddBuyDAO();
+	int orderNo = dao.orderNo();
+	
+	dao.addBuyMall(id, disCount, orderNo);
+	dao.addUsePoint(usePoint,orderNo);
+	
+	for (int i=0; i<itemNo.length; i++) {
+		int no = Integer.parseInt(itemNo[i]);
+		int itemCount = Integer.parseInt(count[i]);
+		int productCount = Integer.parseInt(productCounts[i]);
+		dao.addBuyItem(no, itemCount, orderNo, size, color);
+		dao.updateProductCount(no, productCount-itemCount);
+		dao.deleteCart(no);
+		
+	}
+	
+	session.setAttribute("LOGINED_USER", testUser);
+	
+	UserVO user2 = (UserVO)session.getAttribute("LOGINED_USER");
+	
+	System.out.println("후 포인트"+user2.getPoint());
+	
+	response.sendRedirect("/main.jsp");
+
+%>

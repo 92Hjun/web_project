@@ -1,0 +1,200 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>addBoradForm</title>
+</head>
+<body>
+<%@include file="../nav.jsp"%>
+<div class="container">
+	<div class="titlearea">
+		<p>글쓰기 <small style="font-size: 18px;"> | 글쓰기</small></p>
+	</div>
+	<div class="panel">
+		<form action="/board/addBoardProcess.jsp" method="post" onsubmit="return formCheck()">
+			<table class="table">
+				<thead>
+					<tr style="text-align: center;">
+						<th style="background-color: #fbf9fa; width: 100px; text-align: center;">카테고리</th>
+						<th>
+							<select name="boardType" id="" class="form-control">
+							<% if(request.getParameter("vno").equals("1"))  {%>
+								<option value="1">교환/반품 문의드립니다.</option><% }%>
+							<% if(request.getParameter("vno").equals("2"))  {%>
+								<option value="2">배송전 변경 요청 문의드립니다.</option><% }%>
+							<% if(request.getParameter("vno").equals("3"))  {%>
+								<option value="3">상품 문의드립니다.</option><% }%>
+							<% if(request.getParameter("vno").equals("4"))  {%>
+								<option value="4">기타 문의드립니다.</option>	<% }%>
+							</select>
+						</th>
+					</tr>
+					<tr style="text-align: center;">
+						<th style="background-color: #fbf9fa; width: 100px; text-align: center;">제목</th>
+						<th><input type="text" class="form-control" name="boardTitle" id="board-Title"/></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan="2">
+							<textarea name="boardContents" id="board-contents" cols="auto" rows="10" style="width : 100%;"></textarea>
+						</td>
+					</tr>
+				</tbody>
+				<tbody>
+					<tr>
+						<th>UCC URL</th>
+						<td><input type="text" style="width: 200px; " id="uccUrl" name="uccUrl"/>
+								넓이 <input type="text" style="width: 50px;" id="uccWidth" name="uccWidth"/>
+								높이 <input type="text" style="width: 50px;" id="uccHeight" name="uccHeight"/>
+						</td>
+					</tr>
+					<tr>
+						<th>첨부파일1</th>
+						<td>
+							<input type="file" name="boardFileName1"/>
+						</td>
+					</tr>
+					<tr>
+						<th>첨부파일2</th>
+						<td>
+							<input type="file" name="boardFileName2"/>
+						</td>
+					</tr>
+					<tr>
+						<th>첨부파일3</th>
+						<td>
+							<input type="file" name="boardFileName3"/>
+						</td>
+					</tr>
+					<tr>
+						<th>첨부파일4</th>
+						<td>
+							<input type="file" name="boardFileName4"/>
+						</td>
+					</tr>
+					<tr>
+						<th>첨부파일5</th>
+						<td>
+							<input type="file" name="boardFileName5"/>
+						</td>
+					</tr>
+					<tr>
+						<th>비밀번호</th>
+						<td>
+							<input type="password" name="boardPwd" id="board-password" style="width: 30%;"/>
+						</td>
+					</tr>
+					<tr>
+						<th>비밀글 설정</th>
+						<td>
+							<input type="radio" name="secret" value="n" id="board-open" onchange="chageSecret(event);"/> 
+							<label for="board-open">공개글</label>
+							<input type="radio" name="secret" value="y" id="board-close" onchange="chageSecret(event);" checked="checked"/> 
+							<label for="board-close">비밀글</label>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div>
+				<a href="/board/notice.jsp" class="btn btn-default">목록</a>
+				<button type="reset" class="btn btn-default pull-right">취소</button>
+				<button type="submit" class="btn pull-right" style="background-color: #4a5164;">등록</button>
+			</div>
+			<div class="footer"></div>
+		</form>
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+	document.getElementById("uccWidth").defaultValue = "400";
+	document.getElementById("uccHeight").defaultValue = "300";
+	
+	function chageSecret(e) {
+		var inputEL = document.getElementById("board-password");
+		if (e.target.value == 'y') {
+			inputEL.removeAttribute("disabled");
+			inputEL.disalbed = false;
+		} else if (e.target.value == 'n') {
+			inputEL.value="";
+			inputEL.setAttribute("disabled", "disabled");
+			inputEL.disalbed = true;
+		}
+		
+	}
+	
+	function formCheck() {
+		
+		var titleEL = document.getElementById("board-Title");
+		var title = titleEL.value.trim();
+		if(title=="") {
+			alert('제목을 입력하세요.');
+			titleEL.focus();
+			return false;
+		}
+		
+		
+		var contentsEL = document.getElementById("board-contents");
+		var contents = contentsEL.value.trim();
+		if(contents=="") {
+			alert('내용을 입력하세요.');
+			contentsEL.focus();
+			return false;
+		}
+
+		var pwdEL = document.getElementById("board-password");
+		var pwd = pwdEL.value.trim();
+		if(pwd.length > 17) {
+			alert('비밀번호는 16자 이하로 입력해주세요.');
+			pwdEL.focus();
+			return false;
+		}
+		
+		var uccUrlEL = document.getElementById("uccUrl");
+		var uccUrl = uccUrlEL.value.trim();
+		
+		if(uccUrl.length > 50) {
+			alert('UCC URL은 50자를 넘을 수 없습니다.');
+			uccUrlEL.focus();
+			return false;
+		}
+		
+		if(uccUrl) {
+			
+			var uccWidthEL = document.getElementById("uccWidth");
+			var uccWidth = uccWidthEL.value.trim();
+			if(uccWidth=="") {
+				alert('Ucc 넓이 값이 필요합니다.');
+				uccWidthEL.focus();
+				return false;
+			}
+			
+			if(uccWidth.length<2) {
+				alert('UCC 넓이 값은 100(px) 이상입니다.');
+				uccWidthEL.focus();
+				return false;
+			}
+			
+			var uccHeightEL = document.getElementById("uccHeight");
+			var uccHeight = uccHeightEL.value.trim();
+			if(uccHeight=="") {
+				alert('Ucc 높이 값이 필요합니다.');
+				uccHeightEL.focus();
+				return false;
+			}
+			if(uccHeight.length<2) {
+				alert('UCC 높이 값은 100(px) 이상입니다.');
+				uccHeightEL.focus();
+				return false;
+			}
+		}
+		return true;
+	}
+</script>
+</html>

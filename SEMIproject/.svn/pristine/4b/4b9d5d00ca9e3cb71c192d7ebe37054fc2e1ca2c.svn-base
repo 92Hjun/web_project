@@ -1,0 +1,35 @@
+<%@page import="util.MailSend"%>
+<%@page import="util.MD5"%>
+<%@page import="java.util.Random"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false"%>
+
+ <%
+	request.setCharacterEncoding("urf-8");
+ 
+ 	//임시비밀번호 발급
+ 	String words = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
+ 	System.out.println(words);
+ 	Random random = new Random();
+ 	
+ 	String emailCode = "";
+ 	for (int i=0; i<64; i++) {
+ 		// 36개 문자중에서 랜덤으로 하나씩 뽑는다. 4번반복
+ 		int result = random.nextInt(60);
+ 		String w = String.valueOf(words.charAt(result));
+ 		emailCode +=w;
+ 	}
+ 	
+ 	// 암호화
+ 	String secuPwd = MD5.hash(emailCode);
+	System.out.println(secuPwd);
+	
+	 // 고객에게 이메일 확인 인증번호 발송		
+ 	MailSend mailsend = new MailSend();
+ 	String title = "[Boutique CC] 임시비밀번호 발급";
+	String id = request.getParameter("id");
+	String contents = "♡임시비밀번호♡" + emailCode;
+ 	mailsend.sendmail(title, id, contents);
+ 	
+ 	response.sendRedirect("/member/pro/idcheck.jsp?verifiedid=' + id");
+ %>

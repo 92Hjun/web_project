@@ -1,0 +1,175 @@
+<%@page import="util.PageNationUtil"%>
+<%@page import="util.NumberUtil"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="vo.BoardVO"%>
+<%@page import="dao.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false"%>
+<%
+BoardDAO dao = new BoardDAO();
+
+// 등록된 총 게시판 갯수 조회
+int totalRows = 0;
+String tNo = request.getParameter("tno");
+String pno = request.getParameter("pno");
+int tno = 1;
+if(tNo != null) {
+	tno = Integer.parseInt(tNo);
+	totalRows = dao.getTotalRows(tno);
+}
+// 등록된 총 페이지 갯수 계산하기
+final int ROWS_PER_PAGE = 10;
+int totalPages = (int) Math.ceil((double) totalRows / ROWS_PER_PAGE);
+
+// 페이지 번호 알아내기
+int pageNo = NumberUtil.StringToInt(pno, 1);
+
+// 조회시 구간 시작 값과 구간 끝값 알아내기
+int begintIndex = (pageNo-1) * ROWS_PER_PAGE + 1;
+int endIndex = pageNo * ROWS_PER_PAGE;
+int lastPage = totalPages; 
+
+// 요청한 페이지에 해당하는 일정 조회하기
+ArrayList<BoardVO> boardList = dao.getBoardListForPaging(begintIndex, endIndex, tno);
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>Example</title>
+</head>
+<body>
+<%@include file="../../nav.jsp"%>
+<%  String err = request.getParameter("err");
+if (err != null) { %>
+	<script type="text/javascript"> alert('권한이 없습니다. 고객센터를 이용해주세요 010-1234-5678');</script>
+<%}%>
+<div class="container">
+	<div style="padding-bottom: 60px; padding-top: 30px; text-align: center;">
+	<h3><%if(tno == 1)  { %>
+		교환/반품요청
+	<%} else if (tno == 2) { %> 
+		배송전 변경
+	<%} else if (tno == 3) { %> 
+		상품 문의
+	<%} else if (tno == 4) { %> 
+		기타 문의<%}%></h3>	
+	<p><strong style="font-size: 35px;">/</strong><br />
+		해당 게시판의 특성과 맞지 않는 게시물, <br />
+		또한 관련성 없는 비방성의 글들은 임의로 삭제됩니다
+	</p>
+	</div>
+
+	<table class="table table-bordered" style="margin: auto;">
+			<colgroup>
+				<col width="70px;"/>
+				<col width="135px;" />
+				<col width="auto;" />
+				<col width="84px;" />
+				<col width="100px;" />
+				<col width="55px;" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th scope="col" id="no">번호</th>
+					<th scope="col" id="category">카테고리</th>
+					<th scope="col" id="title">제목</th>
+					<th scope="col" id="writer">작성자</th>
+					<th scope="col" id="regdate">작성일</th>
+					<th scope="col" id="readcount">조회</th>
+				</tr>
+			</thead>
+			<tbody style="height: 40px;">
+			<%  for (BoardVO vo : boardList) { %> 
+				<tr>
+					<td style="text-align: center;"><%=vo.getBoardNo() %></td>
+					<td style="text-align: center;"><%=vo.getBoardCategory() %></td>
+					<td><a href="<%= vo.getSecret().equals("y") ? "/board/product/secret.jsp?bno="+vo.getBoardNo()+"&tno="+vo.getBoardType()+"&pno="+request.getParameter("pno") : "/board/product/readBoardDetail.jsp?bno="+vo.getBoardNo()+"&tno="+vo.getBoardType()+"&pno="+request.getParameter("pno")%>">
+						<%=vo.getBoardTitle() %>
+						<%if(vo.getSecret().equals("y") ) {
+							%> <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> <% } %>
+						</a>
+					</td>
+					<td style="text-align: center;"><%=vo.getUserName() %></td>
+					<td style="text-align: center;"><%=vo.getSimpleDate() %></td>
+					<td style="text-align: center;"><%=vo.getBoardReadCount() %></td>
+				</tr>
+			<%}%>
+			</tbody>
+		</table>
+		<div class="pull-right" style="padding-top: 10px;">
+			<a href="/board/addBoardForm.jsp?tno=<%=tno %>&pno=<%=pageNo %>" class="btn btn-primary">글쓰기</a>
+		</div>
+		
+		
+		<div class="text-center" >
+			<ul class="pagination">
+			<%
+			String hide1 = "";
+			if(request.getParameter("pno") != null) {
+				int hideNo = Integer.parseInt(request.getParameter("pno"));
+				if (hideNo < 6) {
+					hide1 = "hide";
+				}
+			}
+			int firstNo = 1;
+			if(request.getParameter("fno") != null) {
+				firstNo = Integer.parseInt(request.getParameter("fno"));
+			} else {
+				hide1 = "hide";
+			}
+			PageNationUtil pagenationUtil = new PageNationUtil();
+			int beforePage = pagenationUtil.getBeforePage(pageNo);
+			%>
+				<li class="<%=hide1 %>">
+			      <a href="/board/product/productBoard.jsp?tno=1&pno=1" aria-label="Previous">
+			        <span aria-hidden="true" class="glyphicon glyphicon-backward"></span>
+			      </a>
+			    </li>
+			    <li class="<%=hide1 %>">
+			    	<a href="/board/product/productBoard.jsp?tno=1&pno=<%=beforePage%>&fno=<%=beforePage-4%>">
+			    		<span class="glyphicon glyphicon-menu-left"></span>
+			    	</a>
+			    </li>
+			<%
+			String hide3 = "";
+			int forCount = 4;
+			String hide4 = "";
+			firstNo = pagenationUtil.getFirstPage(firstNo, pageNo);
+			for (int index=firstNo; index <= firstNo+forCount; index++) {
+				if(index > lastPage) {
+					hide3 = "hide";
+				}
+				if(lastPage < 6) {
+					forCount = 4;
+					hide4 = "hide";
+				}
+				if (index == pageNo) { %>
+				<li class="active <%= hide3%>"><a href="/board/product/productBoard.jsp?tno=1&pno=<%=index%>&fno=<%=firstNo %>"><%=index%></a></li>
+				<%} else {%>
+				<li class="<%=hide3 %>"><a href="/board/product/productBoard.jsp?tno=1&pno=<%=index%>&fno=<%=firstNo %>"><%=index%></a></li>
+				<%}
+			}
+				int nextPage = pagenationUtil.getNextPage(pageNo, lastPage);
+			%>
+			 	<li class="<%=hide4%>">
+			 		<a href="/board/product/productBoard.jsp?tno=1&pno=<%=nextPage%>&fno=<%=firstNo+5 %>">
+			 			<span class="glyphicon glyphicon-menu-right">
+			 			</span>
+			 		</a>
+			 	</li>
+				<li class="<%=hide4%>">
+			      <a href="/board/product/productBoard.jsp?tno=1&pno=<%=lastPage%>" aria-label="Next">
+			        <span aria-hidden="true" class="glyphicon glyphicon-forward"></span>
+			      </a>
+			    </li>
+			</ul>
+		</div>
+</div>
+<%@include file="../../footer.jsp" %>
+</body>
+</html>

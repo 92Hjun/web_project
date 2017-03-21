@@ -1,0 +1,57 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=News+Cycle:400,700" />
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+	.tableTh1 {
+		border: 1px solid;
+		border-color: #dddddd;
+		background-color: #fbf9fa;
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+<%@include file="/nav.jsp"%>
+<div class="container">
+	<div style="padding-bottom: 60px; padding-top: 60px; text-align: center;">
+		<h3>F&amp;A</h3> /
+		<strong style="font-size: 13px; color: #757575;">이용안내 FAQ입니다.</strong>
+			<br /><br />
+	</div>
+	<table class="table table-bordered" style="margin:auto; padding: 30px;">
+		<colgroup>
+				<col width="70px;"/>
+				<col width="135px;" />
+				<col width="auto;" />
+				<col width="84px;" />
+				<col width="100px;" />
+				<col width="55px;" />
+		</colgroup>
+		<thead>
+			<tr>
+				<th id="tableTh1">번호</th>
+				<th id="tableTh1">카테고리</th>
+				<th id="tableTh1">제목</th>
+				<th id="tableTh1">작성자</th>
+				<th id="tableTh1">작성일</th>
+				<th id="tableTh1">조회</th>
+			</tr>
+		</thead>
+	
+	
+	
+	</table>	
+	
+</div>
+<%@include file="../../footer.jsp" %>
+</body>
+</html>

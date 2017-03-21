@@ -1,0 +1,108 @@
+<%@page import="java.sql.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="vo.BuyVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.AdminOnlyDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false" trimDirectiveWhitespaces="true"%>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=News+Cycle:400,700" />
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- 추가한 CSS -->
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<!-- 모든유저가 보는 네비바 -->
+<%@include file="/nav.jsp"%>
+
+<!-- Admin의 네비바 -->
+<%@include file="adminNav.jsp"%>
+
+<body>
+<!-- LogingCheck And Admin Check -->
+<%
+	if(session == null) {
+	response.sendRedirect("/main.jsp?err");
+	return;
+	}
+	request.setCharacterEncoding("utf-8");
+	
+	UserVO user = (UserVO) session.getAttribute("LOGINED_USER");
+	
+	if(!"admin".equals(user.getId())) {
+		response.sendRedirect("/main.jsp?YourNotManager!");
+		return;
+	}
+%>
+
+	<div class="container" >
+		<div class="row" id="naviTarget">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3>
+						<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+						구매 통계</h3>
+					</div>
+					<div class="panel-body">
+					<!-- 그래프 -->
+					
+					<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+				       <div id="chart_div" style="width: 100%; height: 800px;">
+				    </div>
+				       
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<!-- 그래프 관련 -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+    ['월', '판매 수량'],
+    
+    <% 
+    	
+    	AdminOnlyDAO adminDAO = new AdminOnlyDAO();
+    	ArrayList<BuyVO> StatList = adminDAO.getAllStat();
+    	
+    	for(BuyVO stat : StatList) {
+    %>
+     
+    ['<%=stat.getBuyCompleted() %>',  <%=stat.getBuyUserId() %> ],
+    
+    <%
+    	}
+    %>
+  ]);
+
+  var options = {
+    title: '월간 판매 실적',
+    hAxis: {titleTextStyle: {color: '#333'}},
+    vAxis: {minValue: 0}
+  };
+
+  var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+  chart.draw(data, options);
+}
+
+</script>
+</html>

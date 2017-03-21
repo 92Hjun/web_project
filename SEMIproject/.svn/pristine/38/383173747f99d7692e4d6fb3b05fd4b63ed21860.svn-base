@@ -1,0 +1,214 @@
+<%@page import="util.NumberUtil"%>
+<%@page import="dao.MainDAO"%>
+<%@page import="vo.ItemVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.itemRegisterDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>company name</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=News+Cycle:400,700" />
+
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<%@include file="nav.jsp"%>
+	<div id="slider">
+		<div class="w3-content w3-display-container" style="max-width: 1200px">
+			<img class="mySlides" src="img1.jpg" style="width: 100%"> 
+			<img class="mySlides" src="img2.jpg" style="width: 100%"> 
+			<img class="mySlides" src="img3.jpg" style="width: 100%">
+			<div
+				class="w3-center w3-section w3-large w3-text-white w3-display-bottommiddle"
+				style="width: 100%">
+				<div class="w3-left w3-padding-left w3-hover-text-khaki"
+					onclick="plusDivs(-1)">&#10094;</div>
+				<div class="w3-right w3-padding-right w3-hover-text-khaki"
+					onclick="plusDivs(1)">&#10095;</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<a href="#">
+							500 x 200
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<a href="#">
+							500 x 200
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="panel panel-default">
+					<div class="panel-body">
+						<a href="#">
+							1100 x 200
+						</a>
+					</div>
+				</div>
+		</div>
+	</div>
+	<br/>
+	<br/>
+	<br/>
+	<hr>
+	<div class="container">
+	<!-- 페이징 처리 -->
+		<%
+			MainDAO dao = new MainDAO();
+			
+			final int ROWS_PER_PAGE = 20;
+			int totalRows =dao.getTotalRows();
+			int totalPages = (int)Math.ceil(((double)totalRows/ROWS_PER_PAGE));
+			int pageNo = NumberUtil.StringToInt(request.getParameter("pno"),1);
+			
+			int beginIndex = (pageNo - 1)*ROWS_PER_PAGE + 1;
+			int endIndex = pageNo*ROWS_PER_PAGE;
+			int prev = (totalPages-totalPages)+1;
+			int next = totalPages;
+		%>
+		<div class="row">
+			<%
+		MainDAO maindao = new MainDAO();
+		ArrayList<ItemVO> itemList = maindao.getItemListPageList(beginIndex, endIndex);
+		int count = 0;
+		for(ItemVO item: itemList){
+			count++;
+	%>
+			<div class="col-sm-3">
+				<div class="panel panel-default">
+					<div class="panel-heading"><%=item.getName() %></div>
+					<div class="panel-body">
+						<a href="/thumbnail/thumbdetail.jsp?ino=<%=item.getItemNo()%>&pno=<%=pageNo%>&groupno=<%=item.getGroupNo()%>">
+						<img src="itemImage/<%=item.getSrc()%>"/>
+						</a>
+					</div>
+					<div class="panel-footer"><%=item.getEtc() %></div>
+				</div>
+			</div>
+			
+	<%	
+			if(count==4) {
+				count=0;
+				%></div>
+				<div class="row"><%
+			}
+		}
+	%>
+		</div>
+	</div>
+	<div class="container">
+		<ul class="w3-pagination">
+		<%
+			for(int index=1; index<=totalPages; index++){
+				if(index == pageNo){
+		%>
+			<li><a class="w3-black" href="main.jsp?pno=<%=index%>"><%=index %></a></li>
+		<% 
+				}else if(index == prev){
+		%>
+				<li><a href="main.jsp?pno=<%=index %>">&laquo;</a></li>
+		<%
+				}else if(index == next){
+		%>
+				<li><a href="main.jsp?pno=<%=index%>">&raquo;</a></li>
+		<%		
+				}else{
+		%>				
+				<li><a href="main.jsp?pno=<%=index%>"><%=index %></a></li>		
+		<%			
+				}
+			}
+		%>
+		</ul>
+	</div>
+	<hr>
+	<div class="row text-center">
+		<div class="col-md-4">
+			<p><img alt="icon" src="ui.jpg">Customer</p>
+			<dl>
+				<dd><h4>0000-0000</h4></dd>
+				<dd>OPEN am9 ~ pm5</dd>
+				<dd>Lunch pm12 ~ pm1</dd>
+				<dd>토,일요일,공휴일 휴무</dd>
+			</dl>
+		</div>
+		<div class="col-md-4">
+			<p><img alt="icon" src="ui.jpg">FriendShip</p>
+			<dl>
+				<dd><h4>0000-0000</h4></dd>
+				<dd>aaaaaa@naver.com</dd>
+				<dd>companyName_offical</dd>
+				<dd>대량문의 단체주문</dd>
+			</dl>
+		</div>
+		<div class="col-md-4">
+			<p><img alt="icon" src="ui.jpg">Delivery</p>
+			<dl>
+				<dd><small>반품주소</small></dd>
+				<dd>서울특별시 종로구 봉익동 디아망 4층</dd>
+			</dl>
+		</div>
+	</div>
+	<hr>
+	<%@include file="footer.jsp"%>
+
+</body>
+
+<script type="text/javascript">
+	var slideIndex = 1;
+	showDivs(slideIndex);
+
+	function plusDivs(n) {
+		showDivs(slideIndex += n);
+	}
+
+	function currentDiv(n) {
+		showDivs(slideIndex = n);
+	}
+
+	function showDivs(n) {
+		var i;
+		var x = document.getElementsByClassName("mySlides");
+		var dots = document.getElementsByClassName("demo");
+		if (n > x.length) {
+			slideIndex = 1
+		}
+		if (n < 1) {
+			slideIndex = x.length
+		}
+		for (i = 0; i < x.length; i++) {
+			x[i].style.display = "none";
+		}
+		for (i = 0; i < dots.length; i++) {
+			dots[i].className = dots[i].className.replace(" w3-white", "");
+		}
+		x[slideIndex - 1].style.display = "block";
+	}
+</script>
+</html>

@@ -1,0 +1,246 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import util.ConnectionUtil;
+import vo.BoardVO;
+
+public class BoardDAO {
+	
+	
+	
+	// 게시판 페이징 처리
+	public ArrayList<BoardVO> getBoardListForPaging(int begin, int end, int typeNo) throws SQLException {
+		
+		String sql = "select BOARD_NO, BOARD_TITLE, BOARD_CONTENTS,"
+				+ " BOARD_UCCURL, BOARD_UCCWIDTH, BOARD_TYPE, "
+				+ " BOARD_UCCHEIGHT, BOARD_FILE1, BOARD_FILE2, "
+				+ " BOARD_FILE3, BOARD_FILE4, BOARD_FILE5, "
+				+ " BOARD_PWD, BOARD_SECRET, BOARD_USER_NAME, "
+				+ " BOARD_REGDATE, BOARD_READCOUNT, BOARD_CATEGORY"
+				+ " from (select row_number() over(order by board_no desc) rn, "
+				+ " 		BOARD_NO, BOARD_TITLE, BOARD_CONTENTS,"
+				+ " BOARD_UCCURL, BOARD_UCCWIDTH, BOARD_TYPE, "
+				+ " BOARD_UCCHEIGHT, BOARD_FILE1, BOARD_FILE2, "
+				+ " BOARD_FILE3, BOARD_FILE4, BOARD_FILE5, "
+				+ " BOARD_PWD, BOARD_SECRET, BOARD_USER_NAME, "
+				+ " BOARD_REGDATE, BOARD_READCOUNT, BOARD_CATEGORY"
+				+ " from MALL_BOARD "
+				+ " where BOARD_TYPE = ?) "
+				+ " where rn >= ? and rn <= ? ";
+		
+		ArrayList<BoardVO> boardList = new ArrayList<>();
+		
+		Connection con = ConnectionUtil.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, typeNo);
+		pstmt.setInt(2, begin);
+		pstmt.setInt(3, end);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+			BoardVO board = new BoardVO();
+			board.setBoardNo(rs.getInt("BOARD_NO"));
+			board.setBoardTitle(rs.getString("BOARD_TITLE"));
+			board.setBoardContents(rs.getString("BOARD_CONTENTS"));
+			board.setUccURL(rs.getString("BOARD_UCCURL"));
+			board.setUccWidth(rs.getString("BOARD_UCCWIDTH"));
+			board.setUccHeight(rs.getString("BOARD_UCCHEIGHT"));
+			board.setBoardFileName1(rs.getString("BOARD_FILE1"));
+			board.setBoardFileName2(rs.getString("BOARD_FILE2"));
+			board.setBoardFileName3(rs.getString("BOARD_FILE3"));
+			board.setBoardFileName4(rs.getString("BOARD_FILE4"));
+			board.setBoardFileName5(rs.getString("BOARD_FILE5"));
+			board.setBoardPwd(rs.getInt("BOARD_PWD"));
+			board.setSecret(rs.getString("BOARD_SECRET"));
+			board.setUserName(rs.getString("BOARD_USER_NAME"));
+			board.setBoardRegdate(rs.getTimestamp("BOARD_REGDATE"));
+			board.setBoardReadCount(rs.getInt("BOARD_READCOUNT"));
+			board.setBoardType(rs.getInt("BOARD_TYPE"));
+			board.setBoardCategory(rs.getString("BOARD_CATEGORY"));
+			boardList.add(board);		
+		}
+		
+		rs.close();
+		pstmt.close();
+		con.close();
+		return boardList;
+	}
+	
+	// 게시판 총 갯수 불러오기
+	public int getTotalRows(int no) throws SQLException {
+		
+		String sql = "select count(*) cnt from mall_board where BOARD_TYPE = ?";
+		
+		int totalRows = 0;
+		
+		Connection con = ConnectionUtil.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, no);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+			totalRows = rs.getInt("cnt");
+		}
+		
+		rs.close();
+		pstmt.close();
+		con.close();
+		
+		return totalRows;
+	}
+	
+	
+	// 조회수 불러오기
+	public void addBoardReadCount(int no) throws SQLException{
+		
+		String sql = "update MALL_BOARD set BORAD_READCOUNT=BORAD_READCOUNT+1 "
+				+ " where BOARD_NO = ?";
+		
+		Connection con = ConnectionUtil.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, no);
+		pstmt.executeUpdate();
+		
+		pstmt.close();
+		con.close();
+
+	}
+	
+	// 카테고리에 따른 게시판 불러오기
+	public ArrayList<BoardVO> getAllBoardListByType(int no) throws SQLException{
+		
+		String sql = "select BOARD_NO, BOARD_TITLE, BOARD_CONTENTS,"
+				+ " BOARD_UCCURL, BOARD_UCCWIDTH, "
+				+ " BOARD_UCCHEIGHT, BOARD_FILE1, BOARD_FILE2,"
+				+ " BOARD_FILE3, BOARD_FILE4, BOARD_FILE5,"
+				+ " BOARD_PWD, BOARD_SECRET, BOARD_USER_NAME,"
+				+ " BOARD_REGDATE, BOARD_READCOUNT, BOARD_CATEGORY"
+				+ " from MALL_BOARD"
+				+ " where BOARD_TYPE = ?"
+				+ " order by BOARD_NO desc";
+		
+		ArrayList<BoardVO> boardList = new ArrayList<>();
+		
+		Connection con = ConnectionUtil.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, no);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while (rs.next()) {
+			BoardVO board = new BoardVO();
+			board.setBoardNo(rs.getInt("BOARD_NO"));
+			board.setBoardTitle(rs.getString("BOARD_TITLE"));
+			board.setBoardContents(rs.getString("BOARD_CONTENTS"));
+			board.setUccURL(rs.getString("BOARD_UCCURL"));
+			board.setUccWidth(rs.getString("BOARD_UCCWIDTH"));
+			board.setUccHeight(rs.getString("BOARD_UCCHEIGHT"));
+			board.setBoardFileName1(rs.getString("BOARD_FILE1"));
+			board.setBoardFileName2(rs.getString("BOARD_FILE2"));
+			board.setBoardFileName3(rs.getString("BOARD_FILE3"));
+			board.setBoardFileName4(rs.getString("BOARD_FILE4"));
+			board.setBoardFileName5(rs.getString("BOARD_FILE5"));
+			board.setBoardPwd(rs.getInt("BOARD_PWD"));
+			board.setSecret(rs.getString("BOARD_SECRET"));
+			board.setUserName(rs.getString("BOARD_USER_NAME"));
+			board.setBoardRegdate(rs.getTimestamp("BOARD_REGDATE"));
+			board.setBoardReadCount(rs.getInt("BOARD_READCOUNT"));
+			board.setBoardType(no);
+			board.setBoardCategory(rs.getString("BOARD_CATEGORY"));
+			boardList.add(board);
+		}
+		
+		pstmt.close();
+		con.close();
+		
+		return boardList;
+	}
+	
+	// Board 추가하기
+	public void addBoard(BoardVO vo) throws SQLException {
+		
+		String sql = "insert into MALL_BOARD(BOARD_NO, BOARD_REGDATE, BOARD_READCOUNT, BOARD_TYPE,"
+				+ " BOARD_TITLE, BOARD_CONTENTS, "
+				+ " BOARD_UCCURL, BOARD_UCCWIDTH, BOARD_UCCHEIGHT,"
+				+ " BOARD_FILE1, BOARD_FILE2, BOARD_FILE3, BOARD_FILE4, BOARD_FILE5,"
+				+ " BOARD_PWD, BOARD_SECRET, BOARD_USER_NAME, BOARD_CATEGORY) "
+				+ " values(board_seq.nextval, sysdate, 0, ?, "
+				+ "	?, ?, "
+				+ "	?, ?, ?,"
+				+ "	?, ?, ?, ?, ?,"
+				+ " ?, ?, ?, ?)";
+				
+		Connection con = ConnectionUtil.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, vo.getBoardType());
+		pstmt.setString(2, vo.getBoardTitle());
+		pstmt.setString(3, vo.getBoardContents());
+		pstmt.setString(4, vo.getUccURL());
+		pstmt.setString(5, vo.getUccWidth());
+		pstmt.setString(6, vo.getUccHeight());
+		pstmt.setString(7, vo.getBoardFileName1());
+		pstmt.setString(8, vo.getBoardFileName2());
+		pstmt.setString(9, vo.getBoardFileName3());
+		pstmt.setString(10, vo.getBoardFileName4());
+		pstmt.setString(11, vo.getBoardFileName5());
+		pstmt.setInt(12, vo.getBoardPwd());
+		pstmt.setString(13, vo.getSecret());
+		pstmt.setString(14, vo.getUserName());
+		pstmt.setString(15, vo.getBoardCategory());
+		pstmt.executeUpdate();
+		pstmt.close();
+		con.close();
+	}
+	
+	// 모든 Board 불러오기
+	public ArrayList<BoardVO> getAllBoardList() throws SQLException{
+		
+		String sql = "select BOARD_NO, BOARD_TITLE, BOARD_CONTENTS,"
+				+ " BOARD_UCCURL, BOARD_UCCWIDTH, BOARD_TYPE, "
+				+ " BOARD_UCCHEIGHT, BOARD_FILE1, BOARD_FILE2, "
+				+ " BOARD_FILE3, BOARD_FILE4, BOARD_FILE5, "
+				+ " BOARD_PWD, BOARD_SECRET, BOARD_USER_NAME, "
+				+ " BOARD_REGDATE, BOARD_READCOUNT, BOARD_CATEGORY"
+					+ "	from MALL_BOARD"
+					+ " order by BOARD_NO desc";
+		
+		ArrayList<BoardVO>  boardList = new ArrayList<>();
+		
+		Connection con = ConnectionUtil.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();		
+		
+		while(rs.next()) {
+			BoardVO board = new BoardVO();
+			board.setBoardNo(rs.getInt("BOARD_NO"));
+			board.setBoardTitle(rs.getString("BOARD_TITLE"));
+			board.setBoardContents(rs.getString("BOARD_CONTENTS"));
+			board.setUccURL(rs.getString("BOARD_UCCURL"));
+			board.setUccWidth(rs.getString("BOARD_UCCWIDTH"));
+			board.setUccHeight(rs.getString("BOARD_UCCHEIGHT"));
+			board.setBoardFileName1(rs.getString("BOARD_FILE1"));
+			board.setBoardFileName2(rs.getString("BOARD_FILE2"));
+			board.setBoardFileName3(rs.getString("BOARD_FILE3"));
+			board.setBoardFileName4(rs.getString("BOARD_FILE4"));
+			board.setBoardFileName5(rs.getString("BOARD_FILE5"));
+			board.setBoardPwd(rs.getInt("BOARD_PWD"));
+			board.setSecret(rs.getString("BOARD_SECRET"));
+			board.setUserName(rs.getString("BOARD_USER_NAME"));
+			board.setBoardRegdate(rs.getTimestamp("BOARD_REGDATE"));
+			board.setBoardReadCount(rs.getInt("BOARD_READCOUNT"));
+			board.setBoardType(rs.getInt("BOARD_TYPE"));
+			board.setBoardCategory(rs.getString("BOARD_CATEGORY"));
+			boardList.add(board);
+		}
+		
+		rs.close();
+		pstmt.close();
+		con.close();
+		
+		return boardList;
+	}
+}

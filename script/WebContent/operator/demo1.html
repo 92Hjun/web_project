@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+
+<script type="text/javascript">
+
+	var x = 35;
+	var y = "35";
+	var z = 35;
+	// x와 y가 값이 같은지 비교한다.
+	// 두개의 타입을 같이 맞춘다,
+	var result1 = (x == y);
+	alert("==의 연산결과 " + result1);				//true		값만 같으면 true
+	
+	// x와 y의 값과 타입이 같은지 비교한다.
+	// 타입을 바꾸지않고 타입이 같은지의 결과만 확인한다.
+	// 더많이 사용한다.
+	var result2 = (x === y);
+	alert("===의 연산결과 " + result2);				//false		값과 타입이 모두같아야 true
+	
+	
+	var result3 = (x !== y);
+	alert("35 와 '35' !==의 연산결과 " + result3);	//true		값은 같고 타입이 다르면 true
+	
+	var result4 = (x !== z);
+	alert("35 와 35 !==의 연산결과 " + result4);	//false		 		
+	
+</script>
+</html>

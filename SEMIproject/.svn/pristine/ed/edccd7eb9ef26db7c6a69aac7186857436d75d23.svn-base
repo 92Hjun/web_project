@@ -1,0 +1,126 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>company name</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<link rel="stylesheet" href="css/style.css">
+<style>
+	.ftd {
+		font-size: 12px;
+		text-color: #d0d0d0;
+		padding: 0 0 2px 20px;
+		text-align: left;
+	}
+</style>
+</head>
+<body>
+	<footer class="container-fluid text-center" style=" position:fixed;">
+		<div class="row">
+			<div class="col-md-0.5"></div>
+			<div class="col-md-11">
+
+				<div class="row text-center">
+					<div class="col-md-2">
+						<dl>
+							<dt>
+								<img alt="icon" src="/itemImage/footerImg/4.jpg">Customer
+							</dt>
+								
+							<dd>
+								<h4>0000-0000</h4>
+							</dd>
+							<dd class="ftd">OPEN am9 ~ pm5</dd>
+							<dd class="ftd">Lunch pm12 ~ pm1</dd>
+							<dd class="ftd">토,일요일,공휴일 휴무</dd>
+						</dl>
+					</div>
+
+					<div class="col-md-2">
+						<dl>
+							<dt>
+								<img alt="icon" src="/itemImage/footerImg/9.jpg">FriendShip
+							</dt>
+							<dd>
+								<h4>0000-0000</h4>
+							</dd>
+							<dt class="ftd"><img src="/itemImage/footerImg/7-2.jpg" alt="icon" />
+								con.t_commerce <br />
+								<a class="ftd" disabled="disabled">대량문의, 단체주문, 협력업체</a>
+							</dt>
+							<dt>
+							
+							</dt>
+						</dl>
+					</div>
+					<div class="col-md-2">
+						<dl>
+							<dt>
+								<img alt="icon" src="/itemImage/footerImg/5.jpg">Delivery
+							</dt>
+							<dd>
+								<small>반품주소</small>
+							</dd>
+							<dd>서울특별시 종로구 봉익동 디아망 4층</dd>
+						</dl>
+					</div>
+					<div class="col-md-2">
+						<dl>
+							<dt>
+								<img alt="icon" src="/itemImage/footerImg/6.jpg">FriendShip
+							</dt>
+							<dd>
+								<h4>0000-0000</h4>
+							</dd>
+							<dd>aaaaaa@naver.com</dd>
+							<dd>companyName_offical</dd>
+							<dd>대량문의 단체주문</dd>
+						</dl>
+					</div>
+					<div class="col-md-2">
+						<dl>
+							<dt>
+								<img alt="icon" src="/itemImage/footerImg/7.jpg">FriendShip
+							</dt>
+							<dd>
+								<h4>0000-0000</h4>
+							</dd>
+							<dd>aaaaaa@naver.com</dd>
+							<dd>companyName_offical</dd>
+							<dd>대량문의 단체주문</dd>
+						</dl>
+					</div>
+					<div class="col-md-2">
+						<dl>
+							<dt>
+								<img alt="icon" src="/itemImage/footerImg/8.jpg">FriendShip
+							</dt>
+							<dd>
+								<h4>0000-0000</h4>
+							</dd>
+							<dd>aaaaaa@naver.com</dd>
+							<dd>companyName_offical</dd>
+							<dd>대량문의 단체주문</dd>
+						</dl>
+					</div>
+				</div>
+				<form class="form-inline">
+					<small class=""> 상호: 회사명 <span class="text-muted">|</span>
+						대표 : 가가가 <span class="text-muted">|</span> 사업자등록번호:
+						000-00-00000[[사업자정보확인]] <span class="text-muted">|</span> 통신판매업 :
+						제 2017-서울종로-디아망4층 <span class="text-muted">|</span> 대표전화 :
+						1111-1111<br /> 주소 : 서울특별시 종로구 봉익동 디아망 4층 <span
+						class="text-muted">|</span> 개인정보관리책임자 : 가가가 (aaaaaa@naver.com)
+					</small>
+				</form>
+			</div>
+			<div class="col-md-0.5"></div>
+		</div>
+	</footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<%@page import="dao.AdminOnlyDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false" trimDirectiveWhitespaces="true" %>
+ 
+<%	
+	request.setCharacterEncoding("utf-8");
+
+	int type = Integer.parseInt(request.getParameter("type"));
+	String category	= "";
+	String title = request.getParameter("title");
+	String content = request.getParameter("contents");
+	
+	
+	
+	if(type == 1) {
+		category = "교환반품";
+	} else if (type == 2) {
+		category = "배송전변경";
+	} else if (type == 3) {
+		category = "상품문의";
+	} else if (type == 4) {
+		category = "기타문의";
+	} else if (type == 5) {
+		category = "공지사항";
+	} else if (type == 6) {
+		category = "리뷰";
+	} else if (type == 7) {
+		category = "인재";
+	} else if (type == 8) {
+		category = "이벤트";
+	} else if (type == 9) {
+		category = "only you";
+	} else if (type == 10) {
+		category = "F&A";
+	} 
+	 
+	AdminOnlyDAO adminDAO = new AdminOnlyDAO();
+	adminDAO.noticeWrite(type,category,title,content);
+	
+	response.sendRedirect("/admin/adminBoardManagement.jsp");
+%>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<button id="btn1" onclick="fn1()">클릭1</button>
+	<button id="btn2" >클릭2</button>
+	<button id="btn3">클릭3</button>
+	<button id="btn4">클릭4</button>
+	<button id="btn5">클릭5</button>
+</body>
+<script type="text/javascript">
+	// 함수명만 적어주기
+	document.getElementById("btn2").onclick = fn2;
+	
+	// element.addEventListener('click', 실행될 함수명)
+	var thirdBtn = document.getElementById("btn3");
+	thirdBtn.addEventListener('click', fn3);
+	
+	var fourthBtn = document.getElementById("btn4");
+	fourthBtn.onclick = function() {
+		alert("네번째 버튼 클릭");
+	}
+	// 비침투적인 스크립트 (HTML을 덜오염시킴)
+	var fifthBtn = document.getElementById("btn5");
+	fifthBtn.addEventListener('click', function(e) { alert(e); alert("다섯번째 버튼 클릭"); var button = document.getElements});
+	
+	function fn1() {
+		alert("첫번째 버튼 클릭");
+		
+	}
+	function fn2() {
+		alert("두번째 버튼 클릭");
+		
+	}
+	function fn3() {
+		alert("세번째 버튼 클릭");
+		
+	}
+</script>
+</html>

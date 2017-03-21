@@ -1,0 +1,28 @@
+<%@page import="dao.BuyDAO"%>
+<%@page import="vo.BuyVO"%>
+<%@page import="java.util.Random"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false"%>
+<%
+	request.setCharacterEncoding("utf-8");
+	
+	String userName = request.getParameter("userName");
+	String[] itemName = request.getParameterValues("itemName");
+	String[] cnt = request.getParameterValues("count");
+	Random random = new Random();
+	int randomNumber = random.nextInt(10000);
+	
+	for (int i=0; i<itemName.length; i++) {
+
+		BuyDAO dao = new BuyDAO();
+		BuyVO buy = new BuyVO();
+		buy.setBuyItemName(itemName[i]);
+		buy.setBuyUserName(userName);
+		int count = Integer.parseInt(cnt[i]);
+		buy.setBuyCoutn(count);
+		dao.addBuy(buy, randomNumber);
+		System.out.println(itemName[i]);
+	}
+	response.sendRedirect("/main.jsp");
+	
+%>

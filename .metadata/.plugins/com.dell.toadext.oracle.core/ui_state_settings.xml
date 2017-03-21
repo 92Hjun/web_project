@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="UI_STATE">
+	<section name="53157eea-d8de-4282-a0d2-729bfbcb2a21">
+		<item value="&lt;list/&gt;" key="EDITORS"/>
+		<item value="" key="CONTAINER"/>
+	</section>
+	<section name="17064580-1990-4462-a669-a95db272a903">
+		<item value="&lt;list&gt;&#x0A;  &lt;OBJECT__DETAIL&gt;&#x0A;    &lt;isActive&gt;false&lt;/isActive&gt;&#x0A;    &lt;isDirty&gt;false&lt;/isDirty&gt;&#x0A;    &lt;index&gt;3&lt;/index&gt;&#x0A;    &lt;name&gt;TB_USER&lt;/name&gt;&#x0A;    &lt;parent&gt;HR&lt;/parent&gt;&#x0A;    &lt;selectedTab&gt;4&lt;/selectedTab&gt;&#x0A;    &lt;sourceEditors/&gt;&#x0A;    &lt;type&gt;TABLE&lt;/type&gt;&#x0A;  &lt;/OBJECT__DETAIL&gt;&#x0A;&lt;/list&gt;" key="EDITORS"/>
+		<item value="" key="CONTAINER"/>
+	</section>
+	<section name="fcc27afe-79c3-44ad-a10b-25fe62f440e3">
+		<item value="&lt;list/&gt;" key="EDITORS"/>
+		<item value="" key="CONTAINER"/>
+	</section>
+	<section name="d4241150-cf06-41c0-b573-a053100f588c">
+		<item value="&lt;list/&gt;" key="EDITORS"/>
+		<item value="" key="CONTAINER"/>
+	</section>
+	<section name="60fcaa9a-2123-4191-b383-6a0fd76cf71a">
+		<item value="&lt;list/&gt;" key="EDITORS"/>
+		<item value="" key="CONTAINER"/>
+	</section>
+	<section name="ea0e76b8-1cf6-435f-b6f3-03c730bc9d6f">
+		<item value="&lt;list/&gt;" key="EDITORS"/>
+		<item value="" key="CONTAINER"/>
+	</section>
+</section>

@@ -1,0 +1,131 @@
+// 배송지 선택시 배송지 정보 자동입력
+document.getElementById('isCheck').addEventListener('click', function() {
+	var checkbox = document.getElementById('isCheck');
+	if (checkbox.checked) {
+		
+		var userName = document.getElementById('userName').value;
+		document.getElementById('deliberyName').value = userName;
+		var userAdd = document.getElementById('userAdd').value;
+		document.getElementById('deliveryAdd').value = userAdd;
+		
+		var userPhone = document.getElementById('userPhone').value;
+		document.getElementById('deliveryPhone').value = userPhone;
+	}else{
+		
+		document.getElementById('deliveryAdd').value = "";
+		document.getElementById('deliveryPhone').value = "";
+		document.getElementById('deliberyName').value = "";
+	}
+});
+
+// 결제버튼 클릭시 체크
+function check() {
+	var userName = document.getElementById('userName').value.trim();
+	if (userName == "") {
+		alert("이름은 필수 입력값입니다.");
+		document.getElementById('userName').focus();
+		return false;
+	}
+	
+	var userAdd = document.getElementById('userAdd').value.trim();
+	if (userAdd == "") {
+		alert("주소는 필수 입력값입니다.");
+		document.getElementById('userAdd').focus();
+		return false;
+	}
+	
+	var userPhone = document.getElementById('userPhone').value.trim();
+	if(userPhone == ""){
+		alert("전화번호는 필수 입력값입니다.");
+		document.getElementById('userPhone').focus();
+		return false;
+	}
+	
+	var deliberyName = document.getElementById('deliberyName').value.trim();
+	if(deliberyName == ""){
+		alert("받으시는분은 필수 입력값입니다.");
+		document.getElementById('deliberyName').focus();
+		return false;
+	}
+	
+	var deliveryAdd = document.getElementById('deliveryAdd').value.trim();
+	if(deliveryAdd == ""){
+		alert("받는주소는 필수 입력값입니다.");
+		document.getElementById('deliveryAdd').focus();
+		return false;
+	}
+	
+	var deliveryPhone = document.getElementById('deliveryPhone').value.trim();
+	if(deliveryPhone == ""){
+		alert("전화번호는 필수 입력값입니다.");
+		document.getElementById('deliveryPhone').focus();
+		return false;
+	}
+	
+	nextForm();
+	return true;
+}
+
+
+function nextForm() {
+	var form = document.getElementById('nextForm');
+	var html = "";
+	var trCount = document.getElementsByClassName('trCount');
+	var userName = document.getElementById('user').textContent;
+	for (var i=0; i<trCount.length; i++) {
+		var itemName = document.getElementsByClassName('itemName');
+		var count = document.getElementsByClassName('count');
+		
+		html += '<input type="hidden" name="userName" value="'+userName+'">';
+		html += '<input type="hidden" name="itemName" value="'+itemName[i].textContent+'">';
+		html += '<input type="hidden" name="count" value="'+count[i].textContent+'">';
+	}
+	form.innerHTML += html;
+	form.submit();
+}
+
+document.getElementById('cardCheck').addEventListener('click', function() {
+	var cardCheck = document.getElementById('cardCheck');
+	var cardContent = document.getElementById('cardContent');
+	var html="";
+	if (cardCheck.checked) {
+		
+		html += '<select class="pull-right input-sm" id="item-rate" onchange="rateCalurate()">';
+		html += '<option value="0">신용카드를 선택하세요</option>';
+		html += '<option value="0.07">국민 카드</option>';
+		html += '<option value="0.08">신한 카드</option>';
+		html += '<option value="0.09">삼성 카드</option>';
+		html += '</select>';
+		cardContent.innerHTML = html;
+		
+	}else {
+		var total = document.getElementById('totalPrice');
+		var sale = document.getElementById('salePrice');
+		var final = document.getElementById('finalPrice');
+		
+		var totalPrice = total.textContent;
+		sale.textContent = 0;
+		cardContent.innerHTML = "";
+		final.textContent = totalPrice;
+		
+	}
+});
+
+function rateCalurate(){
+	
+	var total = document.getElementById('totalPrice');
+	var sale = document.getElementById('salePrice');
+	var final = document.getElementById('finalPrice');
+	
+	var totalPrice = parseInt(total.textContent);
+	var salePrice = parseInt(sale.textContent);
+	var finalPrice = parseInt(final.textContent);
+	
+	var cardRate = parseFloat(document.getElementById("item-rate").value);
+	
+	var rate = (totalPrice*(Math.round(cardRate*100)))/100;
+	
+	sale.textContent = rate;
+	final.textContent = totalPrice - rate;
+	
+}

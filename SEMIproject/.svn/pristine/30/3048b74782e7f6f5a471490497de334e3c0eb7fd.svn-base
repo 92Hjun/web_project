@@ -1,0 +1,46 @@
+<%@page import="util.NumberUtil"%>
+<%@page import="vo.BoardVO"%>
+<%@page import="dao.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false"%>
+<%
+request.setCharacterEncoding("utf-8");
+String tNo = request.getParameter("tno");
+String bNo = request.getParameter("bno");
+String boardPwd = request.getParameter("boardPwd");
+int bno = NumberUtil.StringToInt(bNo, 1);
+int tno = NumberUtil.StringToInt(tNo, 1);
+String category = "잘못된 접근";
+if(bNo != null && tNo != null) {
+	bno = Integer.parseInt(bNo);
+	tno = Integer.parseInt(tNo);
+	category = request.getParameter("boardType");
+} else {
+	response.sendRedirect("/board/product/productBoard.jsp?tno="+tno+"&err=deny");
+}
+String pno = request.getParameter("pno");
+String title = request.getParameter("boardTitle");
+String contents = request.getParameter("boardContents");
+
+BoardVO board = new BoardVO();
+board.setBoardType(Integer.parseInt(category));
+if (request.getParameter("boardType").equals("1")) {
+	board.setBoardCategory("교환/반품 문의");
+	tno = 1;
+} else if (request.getParameter("boardType").equals("2")) {
+	board.setBoardCategory("배송전 변경 요청문의");
+	tno = 2;
+} else if (request.getParameter("boardType").equals("3")) {
+	board.setBoardCategory("상품 문의");
+	tno = 3;
+} else if (request.getParameter("boardType").equals("4")) {
+	tno = 4;
+	board.setBoardCategory("기타 문의");
+}
+board.setBoardNo(bno);
+board.setBoardTitle(title);
+board.setBoardContents(contents);
+BoardDAO dao = new BoardDAO();
+dao.updateBoard(board);
+response.sendRedirect("/board/boardDetail.jsp?tno="+category+"&pno="+pno+"&bno="+bNo+"&bpwd="+boardPwd);
+%>

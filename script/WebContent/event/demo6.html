@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- 
+	<p>
+		<a href="http://www.daum.net" id="link-1">다음</a>
+		<a href="http://www.naver.com" id="link-2">네이버</a>
+		<a href="http://www.google.com" id="link-3">구글</a>
+	</p>
+	-->
+	<p> 
+		<a href="1.png" id="link-4">image1</a>
+		<a href="2.png" id="link-5">image2</a>
+		<a href="3.png" id="link-6">image3</a>
+	</p>
+	<img id="photo-box" alt="image" src="1.png">
+</body>
+<script type="text/javascript">
+	var aTag = document.getElementsByTagName('a');
+	for (var i=0; i<aTag.length; i++) {
+		aTag[i].addEventListener('click', function(e) {
+			e.preventDefault();
+			
+			var fileName = e.target.getAttribute('href');
+			document.getElementById('photo-box').setAttribute('src', fileName);
+		});
+	}
+	
+</script>
+</html>

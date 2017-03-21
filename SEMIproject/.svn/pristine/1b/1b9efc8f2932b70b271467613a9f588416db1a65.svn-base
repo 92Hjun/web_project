@@ -1,0 +1,165 @@
+<%@page import="util.PageNationUtil"%>
+<%@page import="util.NumberUtil"%>
+<%@page import="dao.MainDAO"%>
+<%@page import="vo.ItemVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.itemRegisterDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false"%>
+	
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>CC</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=News+Cycle:400,700" />
+
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<%@include file="/nav.jsp"%>
+	<div class="container">
+	<!-- 페이징 처리 -->
+		<%
+			MainDAO dao = new MainDAO();
+			
+			final int ROWS_PER_PAGE = 20;
+			int totalRows =dao.getTotalRows();
+			int totalPages = (int)Math.ceil(((double)totalRows/ROWS_PER_PAGE));
+			int pageNo = NumberUtil.StringToInt(request.getParameter("pno"),1);
+			
+			int beginIndex = (pageNo - 1)*ROWS_PER_PAGE + 1;
+			int endIndex = pageNo*ROWS_PER_PAGE;
+			int lastPage = totalPages;
+			
+		%>
+		<div class="row">
+		<%
+		int categoryNo = Integer.parseInt(request.getParameter("coat"));
+		MainDAO maindao = new MainDAO();
+		ArrayList<ItemVO> itemList = maindao.getItemCoatPageList(categoryNo, beginIndex, endIndex);
+		int count = 0;
+		for(ItemVO item: itemList){
+			count++;
+		%>
+			<div class="col-sm-3">
+				<div class="panel panel-default">
+					<div class="panel-heading"><%=item.getName() %></div>
+					<div class="panel-body">
+						<a href="/thumbnail/thumbdetail.jsp?ino=<%=item.getItemNo()%>&pno=<%=pageNo%>&groupno=<%=item.getGroupNo()%>">
+						<img src="/itemImage/<%=item.getSrc()%>" style="width: 100%"/>
+						</a>
+					</div>
+					<div class="panel-footer"><%=item.getEtc() %></div>
+				</div>
+			</div>
+	<%	
+			if(count==4) {
+				count=0;
+				%></div>
+				<div class="row"><%
+			}
+		}
+	%>
+		</div>
+	</div>
+	<div class="container">
+		<ul class="w3-pagination">
+		<%
+			String hide ="";
+			if(request.getParameter("pno") != null){
+				int hideNo = Integer.parseInt(request.getParameter("pno"));
+				if(hideNo < 6){
+				   hide="hide";
+				}
+			}
+			int firstNo = 1;
+			if(request.getParameter("fno") !=null){
+				firstNo=Integer.parseInt(request.getParameter("fno"));
+			}
+			
+			PageNationUtil pagenationUtil = new PageNationUtil();
+			int beforePage = pagenationUtil.getBeforePage(pageNo);
+		%>
+			<li class="<%=hide%>"><a href="/thumbnail/thumbnailCoat.jsp?pno=1&fno=<%=beforePage%>" aria-lebel="previous disabled"><span class="glyphicon glyphicon-backward"></span></a></li>
+			<li class="<%=hide%>"><a href="/thumbnail/thumbnailCoat.jsp?pno=<%=beforePage%>&fno=<%=beforePage-4%>"><span class="glyphicon glyphicon-menu-left"></span></a></li>
+		<%
+		%>
+		<%
+			String hide1 = "";
+			int forCount = 4;
+			firstNo=pagenationUtil.getFirstPage(firstNo, pageNo);
+			for(int index=firstNo; index<=firstNo+forCount; index++){
+				if(request.getParameter("fno")==null) {
+					forCount = 0;
+				}
+				if(index > lastPage) {
+					forCount = lastPage - firstNo + 1;
+				}
+				if(index > lastPage) {
+					hide1="hide";
+				}
+				
+				if(index == pageNo){
+		%>
+			<li class=<%=hide1 %>><a class="w3-gray" href="/thumbnail/thumbnailCoat.jsp?pno=<%=index%>&fno=<%=firstNo %>"><%=index %></a></li>
+		<%	
+			}else {
+		%>
+			<li class=<%=hide1 %>><a href="/thumbnail/thumbnailCoat.jsp?pno=<%=index%>&fno=<%=firstNo %>"><%=index %></a></li>		
+		<%
+			}
+		}
+		int nextPage = pagenationUtil.getNextPage(pageNo, lastPage);
+		%>
+		<li><a href="/thumbnail/thumbnailCoat.jsp?pno=<%=nextPage%>&fno=<%=firstNo+5 > lastPage ? firstNo : firstNo+5 %>"><span class="glyphicon glyphicon-menu-right"></span></a></li>
+		<li><a href="/thumbnail/thumbnailCoat.jsp?pno=<%=lastPage%>&fno=<%=lastPage-4%>" aria-label="next disabled"><span class="glyphicon glyphicon-forward"></span></a></li>
+		<%
+		%>
+		</ul>
+	</div>
+	<%@include file="/footer.jsp"%>
+
+</body>
+
+<script type="text/javascript">
+	var slideIndex = 1;
+	showDivs(slideIndex);
+
+	function plusDivs(n) {
+		showDivs(slideIndex += n);
+	}
+
+	function currentDiv(n) {
+		showDivs(slideIndex = n);
+	}
+
+	function showDivs(n) {
+		var i;
+		var x = document.getElementsByClassName("mySlides");
+		var dots = document.getElementsByClassName("demo");
+		if (n > x.length) {
+			slideIndex = 1
+		}
+		if (n < 1) {
+			slideIndex = x.length
+		}
+		for (i = 0; i < x.length; i++) {
+			x[i].style.display = "none";
+		}
+		for (i = 0; i < dots.length; i++) {
+			dots[i].className = dots[i].className.replace(" w3-white", "");
+		}
+		x[slideIndex - 1].style.display = "block";
+	}
+</script>
+</html>

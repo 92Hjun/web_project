@@ -1,0 +1,118 @@
+<%@page import="vo.BoardVO"%>
+<%@page import="dao.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" session="false"%>
+<%
+BoardDAO dao = new BoardDAO();
+BoardVO vo = dao.getBoardDetailByNo(request.getParameter("bno"));
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>Example</title>
+</head>
+<body>
+<div class="container">
+	
+<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="panel panel-info">
+				<form action="reviewprocess.jsp?&bno=<%=%>&pwd=<%= %>" method="post" onsubmit="return contentsCheck()">
+					<div class="panel panel-heading pull-left">
+						<strong>Board Detail</strong>
+						<small class="text-right"><%= %></small>
+					</div>
+					<div class="panel-body">
+					<table class="table">
+						<tbody>
+							<tr>
+								<th>제목</th>
+								<td><%= %></td>
+							</tr>
+							<tr>
+								<th>작성자</th>
+								<td><%= %></td>
+							</tr>
+							<tr>
+								<th>등록일</th>
+								<td><%= %></td>
+							</tr>
+							<tr>
+								<th>내용</th>
+								<td><%= %></td>
+							</tr>
+							</tbody>
+							</table>
+							<table>
+							<colgroup>
+								<col width="8%" />
+								<col width="15%" />
+								<col width="40%" />
+								<col width="25%" />
+							</colgroup>
+							<thead>
+								<tr>
+									<th>No</th>
+									<th>ID</th>
+									<th>내용</th>
+									<th>작성일</th>
+								</tr>
+							</thead>
+							<tbody>
+							<%
+							
+							%>
+								<tr>
+									<td><%= %></td>
+									<td><%= %></td>
+									<td><%=	%></td>
+									<td><%= %>
+								<%
+									//if(user.getId().equals(review.getUserId())) {										
+								%>
+										<small>삭제</small>
+									</a>
+									</td>
+								</tr>								
+							</tbody>
+					</table>
+						<div class="pull-right">
+						<a href="bloglist.jsp" class="btn btn-primary"><small class="pull-right">목록</small></a>
+						</div>
+					</div>
+					<div class="panel-footer">
+						<div class="row">
+							<div class="col-md-1">
+								<input type="text" value="<%=%>" size="10" disabled/>
+							</div>
+							<div class="col-md-7">
+								<textarea name="contents" cols="45" rows="4" id="contents"></textarea>
+							</div>
+							<div class="col md-4 pull-right">
+							<button type="submit" class="btn btn-info btn-sm">댓글</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+ function contentsCheck(){
+	 var contentsEL = document.getElementById("contents");
+	 var contens = contentsEL.value.trim();
+	 if (contens=="") {
+		alert("내용을 입력하세요.");
+		return false;
+	 }
+	 return true;
+ }
+</script>
+</html>

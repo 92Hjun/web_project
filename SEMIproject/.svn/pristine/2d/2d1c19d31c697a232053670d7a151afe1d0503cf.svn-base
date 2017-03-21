@@ -1,0 +1,229 @@
+<%@page import="vo.StatisticsVO"%>
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="util.NumberUtil"%>
+<%@page import="dao.StatisticsDAO"%>
+<%@page import="vo.ItemVO"%>
+<%@page import="java.sql.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="vo.BuyVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.AdminOnlyDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false" trimDirectiveWhitespaces="true"%>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=News+Cycle:400,700" />
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- 추가한 CSS -->
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<!-- 모든유저가 보는 네비바 -->
+<%@include file="/nav.jsp"%>
+
+<!-- Admin의 네비바 -->
+<%@include file="adminNav.jsp"%>
+
+<body>
+<!-- LogingCheck And Admin Check -->
+<br />
+<br />
+<h2 align="center">Statistics</h2>
+	<div class="container">
+		<div class="row" id="tabTarget">
+		    <ul id="myTab" class="nav nav-tabs" role="tablist">
+		      <li role="presentation" class="active" style="width: 33.3%"><a href="#itemsales" id="item-sales" role="tab" data-toggle="tab" aria-controls="itemContents" aria-expanded="true"><strong style="text-shadow: 40%"><font size="3">Sales</font></strong></a></li>
+		      <li role="presentation" style="width: 33.4%"><a href="#totalprice" id="total-price" role="tab" data-toggle="tab" aria-controls="itemContents" aria-expanded="true"><strong style="text-shadow: 40%"><font size="3">Month Price</font></strong></a></li>
+		      <li role="presentation" style="width: 33.3%"><a href="#monthsales" role="tab" id="month-sales" data-toggle="tab" aria-controls="profileitem" aria-expanded="true" ><strong style="text-shadow:  40%"><font size="3">Month Sales</font></strong></a></li>
+		    </ul>
+	       <div id="myTabContent" class="tab-content">
+						       		<%
+						if(session == null) {
+						response.sendRedirect("/main.jsp?err");
+						return;
+						}
+						request.setCharacterEncoding("utf-8");
+						
+						UserVO user = (UserVO) session.getAttribute("LOGINED_USER");
+						
+						if(!"admin".equals(user.getId())) {
+							response.sendRedirect("/main.jsp?YourNotManager!");
+							return;
+						}
+					%>
+	       		<div role="tabpanel" class="tab-pane fade in active" id="itemsales" aria-labelledBy="item-tab">
+							<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+					<br />
+					<br />
+							   <div id="chart1_div" style="width: 100%; height: 800px;">
+				 				</div>
+				</div>
+	       		 <div role="tabpanel" class="tab-pane fade in active" id="totalprice" aria-labelledBy="item-tab">
+	       				<div id="chart_div" style="width: 100%; height: 800px;"></div>
+	       		 </div>
+	       		 <div role="tabpanel" class="tab-pane fade" id="monthsales" aria-labelledBy="monthsales-tab" >
+	       		 	 <table class=" w3-table w3-bordered">
+	      			<thead>
+	      				<tr>
+	      					<th>
+		      				<p>
+		     				No
+		      				</p>
+		      				</th>
+		      				<th>
+		      				<p>
+		     				Item Name
+		      				</p>
+		      				</th>
+		      				<th><p>
+		     				Rest Volume
+		      				</p>
+		      				</th>
+		      				<th><p>
+		     				Group Number
+		      				</p>
+		      				</th>
+		      				<th><p>
+		     				Price
+		      				</p>
+		      				</th>
+		      			</tr>
+	      			</thead>
+	      			<tbody>
+	      			
+	      				<tr>
+	      						<%
+	      							StatisticsDAO dao = new StatisticsDAO();
+					
+								String searchItem = "";
+					
+								// 한페이지에 나올 개수
+								final int ROWS_PER_PAGE = 10;
+					
+								// 보여질 페이지 블록 개수
+								final int PAGE_PER_BLOCK = 5;
+					
+								// 내 페이지의 총 게시물 개수 
+								int totalRows = dao.getTotalRows();
+					
+								// 총 페이지개수 구하기
+								int totalPages = (int) Math.ceil((double) totalRows / ROWS_PER_PAGE);
+					
+								// 총 페이지블럭개수 구하기
+								int totalBlocks = (int) Math.ceil((double) totalPages / PAGE_PER_BLOCK);
+					
+								// 페이지 번호 알아내기 + pno가 없을시에는 1페이지로 가기
+								int pageNo = NumberUtil.StringToInt((request.getParameter("pno")), 1);
+					
+								// 페이지블럭 이동시 해당 페이지로 이동
+								int currentBlock = (int) Math.ceil((double) pageNo / PAGE_PER_BLOCK);
+					
+								// 조회시 구간시작값과 구간 끝값을 알아내기
+								int beginIndex = (pageNo - 1) * ROWS_PER_PAGE + 1;
+								int endIndex = pageNo * ROWS_PER_PAGE;
+								
+								DecimalFormat df = new DecimalFormat("###,###,###");
+								%>
+								<%
+	      							ArrayList<ItemVO> itemList = dao.getItemBestItemList(beginIndex, endIndex);
+									for(ItemVO item : itemList){
+									%>
+							<td>
+								<%=item.getItemNo() %>
+							</td>
+	      					<td>
+								<%=item.getName() %>
+	      					</td>
+	      					<td>
+	      					
+	      						<%=item.getCount() %>
+	      					</td>
+	      					<td>
+	      						<%=item.getGroupNo() %>
+	      					</td>
+	      					<td>
+	      						<%=item.getDecimalPrice() %>
+	      					</td>
+	      				</tr>
+								<%	
+								}
+								%>
+	      			</tbody>
+	       		 </table>
+	       		 </div>
+	       	</div>
+		</div>
+	</div>
+	<%@include file="/footer.jsp"%>
+</body>	
+<!-- 그래프 관련 -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawChart2);
+
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+    ['Month', 'Sales Num'],
+    
+    <% 
+    	AdminOnlyDAO adminDAO = new AdminOnlyDAO();
+    	ArrayList<BuyVO> StatList = adminDAO.getAllStat();
+    	
+    	for(BuyVO stat : StatList) {
+    %>
+     
+    ['<%=stat.getBuyCompleted() %>',  <%=stat.getBuyUserId() %> ],
+    
+    <%
+    	}
+    %>
+  ]);
+
+  var options = {
+    title: 'Sales',
+    hAxis: {titleTextStyle: {color: '#333'}},
+    vAxis: {minValue: 0}
+  };
+
+  var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+  chart.draw(data, options);
+}
+
+function drawChart2() {
+	  var data = google.visualization.arrayToDataTable([
+	    ['Month', 'Sum'],
+	    
+	    <% 
+	    	StatisticsDAO Statisticsdao = new StatisticsDAO();
+	    	ArrayList<StatisticsVO> StatisticsList = dao.getItemTotalList();
+	    	
+	    	for(StatisticsVO  Statistics: StatisticsList) {
+	    %>
+	     
+	    ['<%=Statistics.getDate() %>', <%=Statistics.getSum() %>],
+	    <%
+	    	}
+	    %>
+	  ]);
+
+	  var options = {
+	    title: 'Month Sales',
+	    hAxis: {titleTextStyle: {color: '#333'}},
+	    vAxis: {minValue: 0}
+	  };
+	  var chart = new google.visualization.AreaChart(document.getElementById('chart1_div'));
+	  chart.draw(data, options);
+	}
+</script>
+</html>

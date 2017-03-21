@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<p id="demo">자바스크립트는 script태그안에서 적을 수 있다.</p>
+	
+	<button onclick="myfunc();">색 변경</button>
+	
+	<p><input type="text" id="text-filed1" onkeyup="myfunc2();"/></p>
+	<p><input type="text" id="text-filed2"/></p>
+</body>
+<script type="text/javascript">
+		document.getElementById("demo").innerHTML = "엘리먼트의 컨텐츠를 바꿀 수 있다.";
+		document.getElementById("demo").style.color = 'red';
+		
+		// 버튼에 함수를 만들어서 함수를 onclick(클릭하면) 실행할 것을 만든다.
+			function myfunc() {
+				document.getElementById("demo").style.color = 'blue';
+			}
+			
+			function myfunc2() {
+				var text = document.getElementById("text-filed1").value;
+				document.getElementById("text-filed2").value = text;
+			}	
+		
+</script>
+</html>

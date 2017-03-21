@@ -1,0 +1,18 @@
+<%@page import="dao.MemberDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" session="false"%>
+<%
+	String id = request.getParameter("id");
+
+	MemberDAO dao = new MemberDAO();
+	int count = dao.idCheck(id);
+	if (id == "") {
+		response.sendRedirect("/member/view/joinForm.jsp");
+		return;
+	}
+	if (count == 0) {
+		response.sendRedirect("/member/view/joinForm.jsp?r=y&id=" + id);
+	} else {
+		response.sendRedirect("/member/view/joinForm.jsp?r=n&id=" + id);
+	}
+%>
